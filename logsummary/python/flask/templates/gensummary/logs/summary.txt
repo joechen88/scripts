@@ -1,0 +1,4 @@
+
+LogSummary location:
+
+reset_c1 : /Users/joechen/Desktop/flask/templates/gensummary/logs/summary-ctrlr_reset_c1.txt

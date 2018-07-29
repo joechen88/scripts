@@ -1,0 +1,261 @@
+                                              ======================================================
+                                                       Allflash/Hybrid reset test (24hrs max)
+                                              ======================================================
+
+
+=Test Name=
+vsan.iocert.ctrlr_reset_c1...
+
+
+=Test Start/End time=
+Start:  2017-10-03 21:11:05
+  End:  2017-10-04 11:45:04
+Total:  0d 14h 33m 59s
+
+
+=IOCert Version=
+3.022
+
+
+=HostName=
+172.176.2.4
+
+
+
+=ESX Version=
+
+
+
+
+=WorkBench/ESX time=
+2017-10-03 21:11:09,664 [INFO ctrlr_microbenchmark.py::Setup::1044] ESX:172.176.2.4  ESX Date:Tue Oct  3 21:11:32 UTC 2017
+
+
+
+
+=Error=
+
+
+
+
+=Traceback=
+
+
+=FIO Error=
+
+
+
+=Disk Info=
+Consumed disks:
+
+
+2017-10-03 21:17:32,921 [INFO vsanlib.py::ConsumeAllEligibleDisks::1743] Host 172.176.2.4: Consumed   MDs: ['naa.50000396f8095c91', 'naa.50000396f8014081', 'naa.50000396f8030dc1', 'naa.50000396e8406d8d', 'naa.50000396f80831e5', 'naa.50000396e8411b91', 'naa.50000396f8031115']
+
+2017-10-03 21:17:32,926 [INFO vsanlib.py::ConsumeAllEligibleDisks::1744] Host 172.176.2.4: Consumed  SSDs: ['naa.5001e82002897e5c']
+
+
+Diskgroups:
+------
+1 + 7  ->   DiskMapping[0]: { SSD: naa.5001e82002897e5c, MDs: naa.50000396f8095c91, naa.50000396f8014081, naa.50000396f8030dc1, naa.50000396e8406d8d, naa.50000396f80831e5, naa.50000396e8411b91, naa.50000396f8031115 }
+1 + 7  ->   DiskMapping[1]: { SSD: naa.5001e82002897750, MDs: naa.50000396e83b20a5, naa.50000396f803112d, naa.50000396f803bc61, naa.50000396e83b2121, naa.50000396e83af4e1, naa.50000396e83b5a65, naa.50000396e831224d }
+1 + 7  ->   DiskMapping[2]: { SSD: naa.5001e82002897404, MDs: naa.50000396f8095d09, naa.50000396e83b1e0d, naa.50000396f8083559, naa.50000396f8095cf5, naa.50000396e83af4e9, naa.50000396f8095cc9, naa.50000396f80830dd }
+------
+Cache:  3
+Capacity:  21
+
+Total drives:  24
+
+
+
+
+=Hard disk info=
+
+
+
+
+=VM + VM size=
+2017-10-03 21:17:53,319 [INFO ctrlr_microbenchmark.py::run::160] Adding data disk to iotester-7-172.176.2.4, size 50080MB
+2017-10-03 21:17:55,496 [INFO ctrlr_microbenchmark.py::run::160] Adding data disk to iotester-8-172.176.2.4, size 50080MB
+2017-10-03 21:17:56,268 [INFO ctrlr_microbenchmark.py::run::160] Adding data disk to iotester-2-172.176.2.4, size 50080MB
+2017-10-03 21:17:59,549 [INFO ctrlr_microbenchmark.py::run::160] Adding data disk to iotester-5-172.176.2.4, size 50080MB
+2017-10-03 21:18:00,296 [INFO ctrlr_microbenchmark.py::run::160] Adding data disk to iotester-4-172.176.2.4, size 50080MB
+2017-10-03 21:18:02,943 [INFO ctrlr_microbenchmark.py::run::160] Adding data disk to iotester-3-172.176.2.4, size 50080MB
+2017-10-03 21:18:03,160 [INFO ctrlr_microbenchmark.py::run::160] Adding data disk to iotester-1-172.176.2.4, size 50080MB
+2017-10-03 21:18:04,313 [INFO ctrlr_microbenchmark.py::run::160] Adding data disk to iotester-6-172.176.2.4, size 50080MB
+2017-10-03 21:18:54,282 [INFO ctrlr_microbenchmark.py::run::160] Adding data disk to iotester-16-172.176.2.4, size 50080MB
+2017-10-03 21:18:55,417 [INFO ctrlr_microbenchmark.py::run::160] Adding data disk to iotester-12-172.176.2.4, size 50080MB
+2017-10-03 21:18:57,550 [INFO ctrlr_microbenchmark.py::run::160] Adding data disk to iotester-11-172.176.2.4, size 50080MB
+2017-10-03 21:18:58,519 [INFO ctrlr_microbenchmark.py::run::160] Adding data disk to iotester-14-172.176.2.4, size 50080MB
+2017-10-03 21:18:59,347 [INFO ctrlr_microbenchmark.py::run::160] Adding data disk to iotester-13-172.176.2.4, size 50080MB
+2017-10-03 21:18:59,518 [INFO ctrlr_microbenchmark.py::run::160] Adding data disk to iotester-10-172.176.2.4, size 50080MB
+2017-10-03 21:18:59,680 [INFO ctrlr_microbenchmark.py::run::160] Adding data disk to iotester-15-172.176.2.4, size 50080MB
+2017-10-03 21:19:02,013 [INFO ctrlr_microbenchmark.py::run::160] Adding data disk to iotester-9-172.176.2.4, size 50080MB
+
+Count:  16
+
+
+
+=IP Address=
+2017-10-03 21:18:08,699 [INFO ctrlr_microbenchmark.py::run::190] VM iotester-7-172.176.2.4 got IP: 172.176.2.212
+2017-10-03 21:18:15,245 [INFO ctrlr_microbenchmark.py::run::190] VM iotester-8-172.176.2.4 got IP: 172.176.2.213
+2017-10-03 21:18:15,263 [INFO ctrlr_microbenchmark.py::run::190] VM iotester-2-172.176.2.4 got IP: 172.176.2.214
+2017-10-03 21:18:15,286 [INFO ctrlr_microbenchmark.py::run::190] VM iotester-5-172.176.2.4 got IP: 172.176.2.215
+2017-10-03 21:18:25,227 [INFO ctrlr_microbenchmark.py::run::190] VM iotester-1-172.176.2.4 got IP: 172.176.2.218
+2017-10-03 21:18:25,249 [INFO ctrlr_microbenchmark.py::run::190] VM iotester-3-172.176.2.4 got IP: 172.176.2.217
+2017-10-03 21:18:25,256 [INFO ctrlr_microbenchmark.py::run::190] VM iotester-6-172.176.2.4 got IP: 172.176.2.219
+2017-10-03 21:18:25,270 [INFO ctrlr_microbenchmark.py::run::190] VM iotester-4-172.176.2.4 got IP: 172.176.2.216
+2017-10-03 21:19:15,476 [INFO ctrlr_microbenchmark.py::run::190] VM iotester-12-172.176.2.4 got IP: 172.176.2.70
+2017-10-03 21:19:15,514 [INFO ctrlr_microbenchmark.py::run::190] VM iotester-11-172.176.2.4 got IP: 172.176.2.34
+2017-10-03 21:19:15,534 [INFO ctrlr_microbenchmark.py::run::190] VM iotester-16-172.176.2.4 got IP: 172.176.2.78
+2017-10-03 21:19:15,566 [INFO ctrlr_microbenchmark.py::run::190] VM iotester-14-172.176.2.4 got IP: 172.176.2.55
+2017-10-03 21:19:25,325 [INFO ctrlr_microbenchmark.py::run::190] VM iotester-10-172.176.2.4 got IP: 172.176.2.64
+2017-10-03 21:19:25,334 [INFO ctrlr_microbenchmark.py::run::190] VM iotester-9-172.176.2.4 got IP: 172.176.2.54
+2017-10-03 21:19:25,341 [INFO ctrlr_microbenchmark.py::run::190] VM iotester-13-172.176.2.4 got IP: 172.176.2.31
+2017-10-03 21:19:25,343 [INFO ctrlr_microbenchmark.py::run::190] VM iotester-15-172.176.2.4 got IP: 172.176.2.28
+
+Count: 16
+
+
+=Deploying VMs time=
+2017-10-03 21:17:34,294 [INFO ctrlr_microbenchmark.py::DeployVms::451] Deploying VMs
+
+
+
+=All VMs deployed time=
+2017-10-03 21:19:35,352 [INFO ctrlr_microbenchmark.py::DeployVms::480] All VMs deployed
+
+
+
+=DD info=
+2017-10-03 21:19:35,466 [INFO ctrlr_microbenchmark.py::ZeroWorkingSet::238] Running dd on '172.176.2.213': dd if=/dev/zero of=/dev/sdb bs=1048576 count=50079 & pid=$! ; while [[ -d /proc/$pid ]]; do echo $pid && sleep 60; done; wait $pid; echo "dd command exit code : " $?
+2017-10-03 21:19:45,487 [INFO ctrlr_microbenchmark.py::ZeroWorkingSet::238] Running dd on '172.176.2.212': dd if=/dev/zero of=/dev/sdb bs=1048576 count=50079 & pid=$! ; while [[ -d /proc/$pid ]]; do echo $pid && sleep 60; done; wait $pid; echo "dd command exit code : " $?
+2017-10-03 21:19:55,504 [INFO ctrlr_microbenchmark.py::ZeroWorkingSet::238] Running dd on '172.176.2.219': dd if=/dev/zero of=/dev/sdb bs=1048576 count=50079 & pid=$! ; while [[ -d /proc/$pid ]]; do echo $pid && sleep 60; done; wait $pid; echo "dd command exit code : " $?
+2017-10-03 21:20:05,534 [INFO ctrlr_microbenchmark.py::ZeroWorkingSet::238] Running dd on '172.176.2.215': dd if=/dev/zero of=/dev/sdb bs=1048576 count=50079 & pid=$! ; while [[ -d /proc/$pid ]]; do echo $pid && sleep 60; done; wait $pid; echo "dd command exit code : " $?
+2017-10-03 21:20:15,554 [INFO ctrlr_microbenchmark.py::ZeroWorkingSet::238] Running dd on '172.176.2.216': dd if=/dev/zero of=/dev/sdb bs=1048576 count=50079 & pid=$! ; while [[ -d /proc/$pid ]]; do echo $pid && sleep 60; done; wait $pid; echo "dd command exit code : " $?
+2017-10-03 21:20:25,576 [INFO ctrlr_microbenchmark.py::ZeroWorkingSet::238] Running dd on '172.176.2.217': dd if=/dev/zero of=/dev/sdb bs=1048576 count=50079 & pid=$! ; while [[ -d /proc/$pid ]]; do echo $pid && sleep 60; done; wait $pid; echo "dd command exit code : " $?
+2017-10-03 21:20:35,603 [INFO ctrlr_microbenchmark.py::ZeroWorkingSet::238] Running dd on '172.176.2.214': dd if=/dev/zero of=/dev/sdb bs=1048576 count=50079 & pid=$! ; while [[ -d /proc/$pid ]]; do echo $pid && sleep 60; done; wait $pid; echo "dd command exit code : " $?
+2017-10-03 21:20:45,630 [INFO ctrlr_microbenchmark.py::ZeroWorkingSet::238] Running dd on '172.176.2.218': dd if=/dev/zero of=/dev/sdb bs=1048576 count=50079 & pid=$! ; while [[ -d /proc/$pid ]]; do echo $pid && sleep 60; done; wait $pid; echo "dd command exit code : " $?
+2017-10-03 21:20:55,651 [INFO ctrlr_microbenchmark.py::ZeroWorkingSet::238] Running dd on '172.176.2.78': dd if=/dev/zero of=/dev/sdb bs=1048576 count=50079 & pid=$! ; while [[ -d /proc/$pid ]]; do echo $pid && sleep 60; done; wait $pid; echo "dd command exit code : " $?
+2017-10-03 21:21:05,674 [INFO ctrlr_microbenchmark.py::ZeroWorkingSet::238] Running dd on '172.176.2.28': dd if=/dev/zero of=/dev/sdb bs=1048576 count=50079 & pid=$! ; while [[ -d /proc/$pid ]]; do echo $pid && sleep 60; done; wait $pid; echo "dd command exit code : " $?
+2017-10-03 21:21:15,704 [INFO ctrlr_microbenchmark.py::ZeroWorkingSet::238] Running dd on '172.176.2.55': dd if=/dev/zero of=/dev/sdb bs=1048576 count=50079 & pid=$! ; while [[ -d /proc/$pid ]]; do echo $pid && sleep 60; done; wait $pid; echo "dd command exit code : " $?
+2017-10-03 21:21:25,740 [INFO ctrlr_microbenchmark.py::ZeroWorkingSet::238] Running dd on '172.176.2.31': dd if=/dev/zero of=/dev/sdb bs=1048576 count=50079 & pid=$! ; while [[ -d /proc/$pid ]]; do echo $pid && sleep 60; done; wait $pid; echo "dd command exit code : " $?
+2017-10-03 21:21:35,761 [INFO ctrlr_microbenchmark.py::ZeroWorkingSet::238] Running dd on '172.176.2.70': dd if=/dev/zero of=/dev/sdb bs=1048576 count=50079 & pid=$! ; while [[ -d /proc/$pid ]]; do echo $pid && sleep 60; done; wait $pid; echo "dd command exit code : " $?
+2017-10-03 21:21:45,791 [INFO ctrlr_microbenchmark.py::ZeroWorkingSet::238] Running dd on '172.176.2.34': dd if=/dev/zero of=/dev/sdb bs=1048576 count=50079 & pid=$! ; while [[ -d /proc/$pid ]]; do echo $pid && sleep 60; done; wait $pid; echo "dd command exit code : " $?
+2017-10-03 21:21:55,821 [INFO ctrlr_microbenchmark.py::ZeroWorkingSet::238] Running dd on '172.176.2.64': dd if=/dev/zero of=/dev/sdb bs=1048576 count=50079 & pid=$! ; while [[ -d /proc/$pid ]]; do echo $pid && sleep 60; done; wait $pid; echo "dd command exit code : " $?
+2017-10-03 21:22:05,848 [INFO ctrlr_microbenchmark.py::ZeroWorkingSet::238] Running dd on '172.176.2.54': dd if=/dev/zero of=/dev/sdb bs=1048576 count=50079 & pid=$! ; while [[ -d /proc/$pid ]]; do echo $pid && sleep 60; done; wait $pid; echo "dd command exit code : " $?
+2017-10-03 21:33:37,698 [DEBUG ctrlr_microbenchmark.py::ZeroWorkingSet::241] Done running dd on host '172.176.2.213' with exit code 0  and output b'792\n792\n792\n792\n792\n792\n792\n792\n792\n792\n792\n792\n792\n792\ndd command exit code :  0' b'50079+0 records in\n50079+0 records out\n52511637504 bytes (53 GB, 49 GiB) copied, 830.386 s, 63.2 MB/s' 
+2017-10-03 21:36:46,526 [DEBUG ctrlr_microbenchmark.py::ZeroWorkingSet::241] Done running dd on host '172.176.2.212' with exit code 0  and output b'792\n792\n792\n792\n792\n792\n792\n792\n792\n792\n792\n792\n792\n792\n792\n792\n792\ndd command exit code :  0' b'50079+0 records in\n50079+0 records out\n52511637504 bytes (53 GB, 49 GiB) copied, 995.21 s, 52.8 MB/s' 
+2017-10-03 21:37:26,880 [DEBUG ctrlr_microbenchmark.py::ZeroWorkingSet::241] Done running dd on host '172.176.2.217' with exit code 0  and output b'791\n791\n791\n791\n791\n791\n791\n791\n791\n791\n791\n791\n791\n791\n791\n791\n791\ndd command exit code :  0' b'50079+0 records in\n50079+0 records out\n52511637504 bytes (53 GB, 49 GiB) copied, 997.24 s, 52.7 MB/s' 
+2017-10-03 21:37:56,743 [DEBUG ctrlr_microbenchmark.py::ZeroWorkingSet::241] Done running dd on host '172.176.2.219' with exit code 0  and output b'802\n802\n802\n802\n802\n802\n802\n802\n802\n802\n802\n802\n802\n802\n802\n802\n802\n802\ndd command exit code :  0' b'50079+0 records in\n50079+0 records out\n52511637504 bytes (53 GB, 49 GiB) copied, 1047.88 s, 50.1 MB/s' 
+2017-10-03 21:38:06,804 [DEBUG ctrlr_microbenchmark.py::ZeroWorkingSet::241] Done running dd on host '172.176.2.215' with exit code 0  and output b'801\n801\n801\n801\n801\n801\n801\n801\n801\n801\n801\n801\n801\n801\n801\n801\n801\n801\ndd command exit code :  0' b'50079+0 records in\n50079+0 records out\n52511637504 bytes (53 GB, 49 GiB) copied, 1058 s, 49.6 MB/s' 
+2017-10-03 21:38:37,077 [DEBUG ctrlr_microbenchmark.py::ZeroWorkingSet::241] Done running dd on host '172.176.2.214' with exit code 0  and output b'801\n801\n801\n801\n801\n801\n801\n801\n801\n801\n801\n801\n801\n801\n801\n801\n801\n801\ndd command exit code :  0' b'50079+0 records in\n50079+0 records out\n52511637504 bytes (53 GB, 49 GiB) copied, 1055.07 s, 49.8 MB/s' 
+2017-10-03 21:39:16,866 [DEBUG ctrlr_microbenchmark.py::ZeroWorkingSet::241] Done running dd on host '172.176.2.216' with exit code 0  and output b'797\n797\n797\n797\n797\n797\n797\n797\n797\n797\n797\n797\n797\n797\n797\n797\n797\n797\n797\ndd command exit code :  0' b'50079+0 records in\n50079+0 records out\n52511637504 bytes (53 GB, 49 GiB) copied, 1080.67 s, 48.6 MB/s' 
+2017-10-03 21:39:16,977 [DEBUG ctrlr_microbenchmark.py::ZeroWorkingSet::241] Done running dd on host '172.176.2.55' with exit code 0  and output b'803\n803\n803\n803\n803\n803\n803\n803\n803\n803\n803\n803\n803\n803\n803\n803\n803\n803\ndd command exit code :  0' b'50079+0 records in\n50079+0 records out\n52511637504 bytes (53 GB, 49 GiB) copied, 1052.71 s, 49.9 MB/s' 
+2017-10-03 21:39:27,003 [DEBUG ctrlr_microbenchmark.py::ZeroWorkingSet::241] Done running dd on host '172.176.2.31' with exit code 0  and output b'804\n804\n804\n804\n804\n804\n804\n804\n804\n804\n804\n804\n804\n804\n804\n804\n804\n804\ndd command exit code :  0' b'50079+0 records in\n50079+0 records out\n52511637504 bytes (53 GB, 49 GiB) copied, 1069.71 s, 49.1 MB/s' 
+2017-10-03 21:39:46,984 [DEBUG ctrlr_microbenchmark.py::ZeroWorkingSet::241] Done running dd on host '172.176.2.218' with exit code 0  and output b'802\n802\n802\n802\n802\n802\n802\n802\n802\n802\n802\n802\n802\n802\n802\n802\n802\n802\n802\ndd command exit code :  0' b'50079+0 records in\n50079+0 records out\n52511637504 bytes (53 GB, 49 GiB) copied, 1089.73 s, 48.2 MB/s' 
+2017-10-03 21:39:47,130 [DEBUG ctrlr_microbenchmark.py::ZeroWorkingSet::241] Done running dd on host '172.176.2.34' with exit code 0  and output b'799\n799\n799\n799\n799\n799\n799\n799\n799\n799\n799\n799\n799\n799\n799\n799\n799\n799\ndd command exit code :  0' b'50079+0 records in\n50079+0 records out\n52511637504 bytes (53 GB, 49 GiB) copied, 1055.96 s, 49.7 MB/s' 
+2017-10-03 21:39:57,195 [DEBUG ctrlr_microbenchmark.py::ZeroWorkingSet::241] Done running dd on host '172.176.2.78' with exit code 0  and output b'802\n802\n802\n802\n802\n802\n802\n802\n802\n802\n802\n802\n802\n802\n802\n802\n802\n802\n802\ndd command exit code :  0' b'50079+0 records in\n50079+0 records out\n52511637504 bytes (53 GB, 49 GiB) copied, 1085.43 s, 48.4 MB/s' 
+2017-10-03 21:39:57,336 [DEBUG ctrlr_microbenchmark.py::ZeroWorkingSet::241] Done running dd on host '172.176.2.64' with exit code 0  and output b'789\n789\n789\n789\n789\n789\n789\n789\n789\n789\n789\n789\n789\n789\n789\n789\n789\n789\ndd command exit code :  0' b'50079+0 records in\n50079+0 records out\n52511637504 bytes (53 GB, 49 GiB) copied, 1064.22 s, 49.3 MB/s' 
+2017-10-03 21:40:06,961 [DEBUG ctrlr_microbenchmark.py::ZeroWorkingSet::241] Done running dd on host '172.176.2.28' with exit code 0  and output b'801\n801\n801\n801\n801\n801\n801\n801\n801\n801\n801\n801\n801\n801\n801\n801\n801\n801\n801\ndd command exit code :  0' b'50079+0 records in\n50079+0 records out\n52511637504 bytes (53 GB, 49 GiB) copied, 1095.48 s, 47.9 MB/s' 
+2017-10-03 21:40:07,147 [DEBUG ctrlr_microbenchmark.py::ZeroWorkingSet::241] Done running dd on host '172.176.2.54' with exit code 0  and output b'801\n801\n801\n801\n801\n801\n801\n801\n801\n801\n801\n801\n801\n801\n801\n801\n801\n801\ndd command exit code :  0' b'50079+0 records in\n50079+0 records out\n52511637504 bytes (53 GB, 49 GiB) copied, 1054.45 s, 49.8 MB/s' 
+2017-10-03 21:40:37,209 [DEBUG ctrlr_microbenchmark.py::ZeroWorkingSet::241] Done running dd on host '172.176.2.70' with exit code 0  and output b'792\n792\n792\n792\n792\n792\n792\n792\n792\n792\n792\n792\n792\n792\n792\n792\n792\n792\n792\ndd command exit code :  0' b'50079+0 records in\n50079+0 records out\n52511637504 bytes (53 GB, 49 GiB) copied, 1080.65 s, 48.6 MB/s' 
+
+
+
+
+=WB Usage=
+2017-10-03 21:40:42,828 [INFO ctrlr_microbenchmark.py::IsCongested::298] Host 172.176.2.4 WB usage at 0.017
+
+
+
+=DiskHealth Time (duration is 12hrs)=
+2017-10-03 21:40:55,794 [INFO thread_base.py::diskHealthCheck::84] DiskHealthCheckThread: Starting CheckDiskHealth
+2017-10-04 09:41:23,052 [INFO thread_base.py::diskHealthCheck::87] DiskHealthCheckThread: CheckDiskHealth thread completed
+
+DiskHealth completion time:  0d 12h 0m 28s
+
+
+
+
+=VMIOThread Time (duration is 12hrs)=
+2017-10-03 21:40:55,776 [INFO thread_base.py::runIoOnVms::55] VMIOThread: Starting IO On all vms
+2017-10-04 09:51:49,101 [INFO thread_base.py::runIoOnVms::61] VMIOThread: VM IO Thread completed
+
+VMIOThread Completion time:  0d 12h 10m 54s
+
+
+
+
+=FIO=
+2017-10-03 21:40:55,923 [INFO ctrlr_microbenchmark.py::RunFIOTest::784] Starting FIO runs
+2017-10-04 09:41:11,865 [INFO ctrlr_microbenchmark.py::RunFIO::909] Done running FIO on: 172.176.2.213
+2017-10-04 09:41:13,780 [INFO ctrlr_microbenchmark.py::RunFIO::909] Done running FIO on: 172.176.2.212
+2017-10-04 09:41:15,847 [INFO ctrlr_microbenchmark.py::RunFIO::909] Done running FIO on: 172.176.2.214
+2017-10-04 09:41:15,908 [INFO ctrlr_microbenchmark.py::RunFIO::909] Done running FIO on: 172.176.2.219
+2017-10-04 09:41:15,965 [INFO ctrlr_microbenchmark.py::RunFIO::909] Done running FIO on: 172.176.2.217
+2017-10-04 09:41:16,078 [INFO ctrlr_microbenchmark.py::RunFIO::909] Done running FIO on: 172.176.2.215
+2017-10-04 09:41:16,111 [INFO ctrlr_microbenchmark.py::RunFIO::909] Done running FIO on: 172.176.2.216
+2017-10-04 09:41:16,464 [INFO ctrlr_microbenchmark.py::RunFIO::909] Done running FIO on: 172.176.2.218
+2017-10-04 09:41:17,225 [INFO ctrlr_microbenchmark.py::RunFIO::909] Done running FIO on: 172.176.2.78
+2017-10-04 09:41:18,007 [INFO ctrlr_microbenchmark.py::RunFIO::909] Done running FIO on: 172.176.2.28
+2017-10-04 09:41:18,400 [INFO ctrlr_microbenchmark.py::RunFIO::909] Done running FIO on: 172.176.2.55
+2017-10-04 09:41:19,312 [INFO ctrlr_microbenchmark.py::RunFIO::909] Done running FIO on: 172.176.2.31
+2017-10-04 09:41:20,304 [INFO ctrlr_microbenchmark.py::RunFIO::909] Done running FIO on: 172.176.2.70
+2017-10-04 09:41:21,302 [INFO ctrlr_microbenchmark.py::RunFIO::909] Done running FIO on: 172.176.2.34
+2017-10-04 09:41:22,193 [INFO ctrlr_microbenchmark.py::RunFIO::909] Done running FIO on: 172.176.2.64
+2017-10-04 09:41:23,380 [INFO ctrlr_microbenchmark.py::RunFIO::909] Done running FIO on: 172.176.2.54
+
+FIO Completion time:  0d 12h 0m 28s
+
+
+
+=Busreset, Lunreset, Targetreset (duration is 12hrs)=
+2017-10-03 21:40:55,758 [INFO thread_base.py::runReset::17] ControllerResetThread:Starting controller reset
+
+Last busreset, lunreset, and targetrest
+2017-10-04 11:03:08,864 [INFO ctrlr_microbenchmark.py::doReset::268] Running busreset on /vmfs/devices/disks/naa.50000396f80830dd
+2017-10-04 11:04:40,008 [INFO ctrlr_microbenchmark.py::doReset::268] Running lunreset on /vmfs/devices/disks/naa.50000396f80830dd
+2017-10-04 11:06:16,124 [INFO ctrlr_microbenchmark.py::doReset::268] Running targetreset on /vmfs/devices/disks/naa.50000396f80830dd
+
+
+busReset count:  168
+lunReset count:  168
+targetReset count:  168
+
+busReset time:  0d 13h 22m 13s
+lunReset time:  0d 13h 23m 45s
+targetReset time:  0d 13h 25m 21s
+
+
+
+
+=Cleanup=
+2017-10-03 21:11:20,552 [INFO vsanlib.py::DisableVSANOnHosts::82] Done cleaning up possible leftover VSAN configuration
+2017-10-03 21:11:21,127 [DEBUG vm.py::DestroyAllVMsInCluster::170] vms: []
+2017-10-03 21:11:21,131 [DEBUG vm.py::DestroyAllVMsInCluster::173] vmsToBeDeleted: []
+2017-10-04 11:11:16,227 [DEBUG vm.py::DestroyAllVMsInCluster::170] vms: ['vim.VirtualMachine:vm-618', 'vim.VirtualMachine:vm-617', 'vim.VirtualMachine:vm-622', 'vim.VirtualMachine:vm-619', 'vim.VirtualMachine:vm-623', 'vim.VirtualMachine:vm-620', 'vim.VirtualMachine:vm-633', 'vim.VirtualMachine:vm-624', 'vim.VirtualMachine:vm-621', 'vim.VirtualMachine:vm-634', 'vim.VirtualMachine:vm-635', 'vim.VirtualMachine:vm-636', 'vim.VirtualMachine:vm-637', 'vim.VirtualMachine:vm-638', 'vim.VirtualMachine:vm-639', 'vim.VirtualMachine:vm-640']
+2017-10-04 11:11:16,227 [DEBUG vm.py::DestroyAllVMsInCluster::173] vmsToBeDeleted: ['vim.VirtualMachine:vm-618', 'vim.VirtualMachine:vm-617', 'vim.VirtualMachine:vm-622', 'vim.VirtualMachine:vm-619', 'vim.VirtualMachine:vm-623', 'vim.VirtualMachine:vm-620', 'vim.VirtualMachine:vm-633', 'vim.VirtualMachine:vm-624', 'vim.VirtualMachine:vm-621', 'vim.VirtualMachine:vm-634', 'vim.VirtualMachine:vm-635', 'vim.VirtualMachine:vm-636', 'vim.VirtualMachine:vm-637', 'vim.VirtualMachine:vm-638', 'vim.VirtualMachine:vm-639', 'vim.VirtualMachine:vm-640']
+2017-10-04 11:11:16,235 [DEBUG vm.py::DestroyAllVMsInCluster::178] Destroying VM: iotester-8-172.176.2.4...
+2017-10-04 11:11:21,405 [DEBUG vm.py::DestroyAllVMsInCluster::178] Destroying VM: iotester-2-172.176.2.4...
+2017-10-04 11:11:26,862 [DEBUG vm.py::DestroyAllVMsInCluster::178] Destroying VM: iotester-3-172.176.2.4...
+2017-10-04 11:11:32,684 [DEBUG vm.py::DestroyAllVMsInCluster::178] Destroying VM: iotester-1-172.176.2.4...
+2017-10-04 11:11:36,976 [DEBUG vm.py::DestroyAllVMsInCluster::178] Destroying VM: iotester-6-172.176.2.4...
+2017-10-04 11:11:41,730 [DEBUG vm.py::DestroyAllVMsInCluster::178] Destroying VM: iotester-5-172.176.2.4...
+2017-10-04 11:11:45,993 [DEBUG vm.py::DestroyAllVMsInCluster::178] Destroying VM: iotester-12-172.176.2.4...
+2017-10-04 11:11:51,624 [DEBUG vm.py::DestroyAllVMsInCluster::178] Destroying VM: iotester-4-172.176.2.4...
+2017-10-04 11:11:55,951 [DEBUG vm.py::DestroyAllVMsInCluster::178] Destroying VM: iotester-7-172.176.2.4...
+2017-10-04 11:12:00,365 [DEBUG vm.py::DestroyAllVMsInCluster::178] Destroying VM: iotester-10-172.176.2.4...
+2017-10-04 11:12:04,713 [DEBUG vm.py::DestroyAllVMsInCluster::178] Destroying VM: iotester-11-172.176.2.4...
+2017-10-04 11:12:09,135 [DEBUG vm.py::DestroyAllVMsInCluster::178] Destroying VM: iotester-9-172.176.2.4...
+2017-10-04 11:12:13,475 [DEBUG vm.py::DestroyAllVMsInCluster::178] Destroying VM: iotester-13-172.176.2.4...
+2017-10-04 11:12:18,186 [DEBUG vm.py::DestroyAllVMsInCluster::178] Destroying VM: iotester-16-172.176.2.4...
+2017-10-04 11:12:22,678 [DEBUG vm.py::DestroyAllVMsInCluster::178] Destroying VM: iotester-14-172.176.2.4...
+2017-10-04 11:12:27,066 [DEBUG vm.py::DestroyAllVMsInCluster::178] Destroying VM: iotester-15-172.176.2.4...
+2017-10-04 11:13:31,925 [INFO ctrlr_microbenchmark.py::Cleanup::1321] Cleaning up any VSAN config ...
+2017-10-04 11:45:04,111 [DEBUG testmanager.py::run::343] Cleaning up done for test:vsan.iocert.ctrlr_reset_c1
+
+
+
+=Status=
+2017-10-04 11:45:04,101 [INFO testmanager.py::run::336]  * vsan.iocert.ctrlr_reset_c1..................................COMPLETED (50397s)
+
