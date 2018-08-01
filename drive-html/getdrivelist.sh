@@ -21,6 +21,8 @@ cat << EOF
 
         $PROG -d hdd.csv -s ssd.csv
 
+        [ Note: first download hdd.csv and ssd.csv from https://www.vmware.com/resources/compatibility/search.php?deviceCategory=vsanio ]
+
 
 EOF
 }
