@@ -1,9 +1,12 @@
 #
-#
+#  get ssd and hdd list
 #
 #
 
 PROG=`basename $0`
+
+HDD=""
+SSD=""
 
 usage() {
 cat << EOF
@@ -16,7 +19,7 @@ cat << EOF
 
     Usage:
 
-        $PROG 
+        $PROG -d hdd.csv -s ssd.csv
 
 
 EOF
@@ -29,6 +32,14 @@ do
        usage
        exit 0
        ;;
+    -d|--hdd)
+       shift
+       HDD=$1
+       ;;
+    -s|--ssd)
+       shift
+       SSD=$1
+       ;;
     -*)
        echo "Not implemented: $1" >&2
        exit 1
@@ -40,3 +51,18 @@ do
    esac
    shift
 done
+
+getHDD(){
+
+    python readCSV.py hdd $HDD > hdd.txt
+    python drive.py hdd hdd.txt drives.html
+}
+
+getSSD(){
+    python readCSV.py ssd $SSD > ssd.txt
+    python drive.py ssd ssd.txt drives.html
+}
+
+
+getHDD
+getSSD
