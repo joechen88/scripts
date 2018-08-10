@@ -333,6 +333,8 @@ elif [ $NUMBER_OF_ESX -eq 1 ]; then
             for ((j=0; j<${#shortTests[@]}; j++))
             do
                 TEST_FOR_ESX1=${shortTests[$j]}
+                
+                # strip out vsan/iocert/ctrlr_ and .py in $TEST_FOR_ESX1 to make TestDir
                 TestDirForEachShortTest=$(echo $TEST_FOR_ESX1 | sed 's/vsan\/iocert\/ctrl_//g' | sed 's/.py//g')
                 makeDir "All_short_tests/$TestDirForEachShortTest"
                 testVPXcommand "$TEST_FOR_ESX1" "1" "All_short_tests/$TestDirForEachShortTest"
@@ -352,7 +354,6 @@ elif [ $NUMBER_OF_ESX -eq 1 ]; then
 #        if [ $i == "70r30w_long_mdCap_enc_af" ] || [ $i == "70r30w_long_99phr_enc" ]; then
 #            encryptionTest "$TEST_FOR_ESX1" "1" "$i"
 #        else
-#            echo "joe:::::: outside"
 #            testVPXcommand "$TEST_FOR_ESX1" "1" "$i"
 #        fi
 #        # handle all shortTests on 1 host
