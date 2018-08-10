@@ -1,7 +1,7 @@
 #!/bin/bash
 #   version=1.0
 #   run-testvpx.sh - use to execute testvpx and will handle either 1 host or 2hosts
-#     
+#
 #   To add new test:
 #       1. update HY_TESTS or AF_TESTS  - are used for sanity check purpose; in case mixed Config tests are selected
 #       2. update checkTest()  as that has the mapping for each test
@@ -266,11 +266,20 @@ fi
 #
 #  Our testvpx framework execute tests randomly in a series.  This is fine on a single host
 #  It is not guarantee that the test will simultaneously when execute tests on both hosts.
-#  RunTest() will handle this case
+#  RunTest() will execute testVPX command and determine if it should run on 1 host or 2 hosts
 #
 #  all tests except encryption test will call testVPXcommand method to execute each test accordingly
-#          test will make a directory if testDir does not exist
+#          test will make a directory if testDir does not exist first
 #          testVPXcommand <testname-with-mapping-either-1host-or-2host> <number-of-esx-host> <testname>
+#
+#   encryptTest need to handle slightly different as that has KMS
+#
+#   2 scenarios:
+#         2 hosts: handle encryptionTest, All_short_tests, and all the rest of the tests
+#                  All_short_tests and individual short test will only run on 1 host
+#
+#          1 host: handle encryptionTest, All_short_tests, and all the rest of the tests
+#
 #
 runTest() {
 
@@ -293,10 +302,12 @@ if [ $NUMBER_OF_ESX -eq 2 ]; then
        elif [ $numOfHost -eq 1 ]; then
            # handle ALL-shortTests on 1 host
            if [ $i == "All_short_tests" ]; then
-               for ((j=1; j<${#shortTests[@]}; j++))
+               for ((j=0; j<${#shortTests[@]}; j++))
                do
                    TEST_FOR_ESX1=${shortTests[$j]}
-                   testVPXcommand "$TEST_FOR_ESX1" "1" "$i"
+                   TestDirForEachShortTest=$(echo $TEST_FOR_ESX1 | sed 's/vsan\/iocert\/ctrl_//g' | sed 's/.py//g')
+                   makeDir "$TestDirForEachShortTest"
+                   testVPXcommand "$TEST_FOR_ESX1" "1" "$TestDirForEachShortTest"
                done
            else
                # handle individual short test
@@ -317,19 +328,45 @@ elif [ $NUMBER_OF_ESX -eq 1 ]; then
         TEST_FOR_ESX1=$(echo $TESTNAME | cut -d' ' -f1)
         if [ $i == "70r30w_long_mdCap_enc_af" ] || [ $i == "70r30w_long_99phr_enc" ]; then
             encryptionTest "$TEST_FOR_ESX1" "1" "$i"
+        # handle all shortTests on 1 host
+        elif [ "$i" == "All_short_tests" ]; then
+            for ((j=0; j<${#shortTests[@]}; j++))
+            do
+                TEST_FOR_ESX1=${shortTests[$j]}
+                TestDirForEachShortTest=$(echo $TEST_FOR_ESX1 | sed 's/vsan\/iocert\/ctrl_//g' | sed 's/.py//g')
+                makeDir "All_short_tests/$TestDirForEachShortTest"
+                testVPXcommand "$TEST_FOR_ESX1" "1" "All_short_tests/$TestDirForEachShortTest"
+            done
         else
             testVPXcommand "$TEST_FOR_ESX1" "1" "$i"
-        fi
-        # handle all shortTests on 1 host
-        if [ $i == "All_short_tests" ]; then
-            for ((j=1; j<${#shortTests[@]}; j++))
-            do
-
-                TEST_FOR_ESX1=${shortTests[$j]}
-                testVPXcommand "$TEST_FOR_ESX1" "1" "$i"
-            done
+       
         fi
     done
+#    # kick off each test on 1 host
+#    for i in "${arrayTestvpx[@]}"
+#    do
+#        checkTest $i
+#        makeDir $i
+#        printf "\nNumber of test(s) to be executed: ${#arrayTestvpx[@]} \n\n"
+#        TEST_FOR_ESX1=$(echo $TESTNAME | cut -d' ' -f1)
+#        if [ $i == "70r30w_long_mdCap_enc_af" ] || [ $i == "70r30w_long_99phr_enc" ]; then
+#            encryptionTest "$TEST_FOR_ESX1" "1" "$i"
+#        else
+#            echo "joe:::::: outside"
+#            testVPXcommand "$TEST_FOR_ESX1" "1" "$i"
+#        fi
+#        # handle all shortTests on 1 host
+#        if [ "$i" == "All_short_tests" ]; then
+#            for ((j=1; j<${#shortTests[@]}; j++))
+#            do
+#                TEST_FOR_ESX1=${shortTests[$j]}
+#                TestDirForEachShortTest=$(echo $TEST_FOR_ESX1 | sed 's/vsan\/iocert\/ctrl_//g' | sed 's/.py//g')
+#                makeDir "All_short_tests/$TestDirForEachShortTest"
+#                testVPXcommand "$TEST_FOR_ESX1" "1" "All_short_tests/$TestDirForEachShortTest"
+#            done
+#        fi
+#    done
+
 fi
 }
 

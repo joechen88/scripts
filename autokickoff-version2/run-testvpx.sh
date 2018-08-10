@@ -1,5 +1,6 @@
 #!/bin/bash
-#
+#   version=1.0
+#   run-testvpx.sh - use to execute testvpx and will handle either 1 host or 2hosts
 #
 #   To add new test:
 #       1. update HY_TESTS or AF_TESTS  - are used for sanity check purpose; in case mixed Config tests are selected
@@ -158,7 +159,7 @@ elif [ "$1" == "70r30w_long_50gb_af" ]; then
   TESTNAME="${commonPath}70r30w_long_50gb_af_c1.py,${commonPath}70r30w_long_50gb_af_c2.py"
   numOfHost=2
 elif [ "$1" == "70r30w_long_mdCap_af" ]; then
-  TESTVPX="${commonPath}70r30w_long_mdCap_af_c1.py,${commonPath}70r30w_long_mdCap_af_c2.py"
+  TESTNAME="${commonPath}70r30w_long_mdCap_af_c1.py,${commonPath}70r30w_long_mdCap_af_c2.py"
   numOfHost=2
 elif [ "$1" == "70r30w_long_mdCap_enc_af" ]; then
   TESTNAME="${commonPath}70r30w_long_mdCap_enc_af_c1.py,${commonPath}70r30w_long_mdCap_enc_af_c2.py"
@@ -202,10 +203,10 @@ elif [ "$1" == "90r10w_short" ]; then
   TESTNAME="${commonPath1}90r10w_short.py"
   numOfHost=1
 elif [ "$1" == "ctrlr_100r0w_long_64k_af_c1" ]; then
-  TESTNAME="${commonPath}ctrlr_100r0w_long_64k_af_c1.py"
+  TESTNAME="${commonPath}100r0w_long_64k_af_c1.py"
   numOfHost=1
-elif [ "$1" == "ctrlr_70r30w_long_64k_af_c1.py" ]; then
-  TESTNAME="${commonPath}ctrlr_70r30w_long_64k_af_c1.py"
+elif [ "$1" == "ctrlr_70r30w_long_64k_af_c1" ]; then
+  TESTNAME="${commonPath}70r30w_long_64k_af_c1.py"
   numOfHost=1
 else
   TESTNAME=""
@@ -213,13 +214,18 @@ else
 fi
 }
 
+#
+# testVPXcommand is responsible to execute testvpx
+# "$1" - testname
+# "$2" - number of host to run test on
+# "$3" - test folder for logs; ie. /workspace/manual.d/getInfo
 testVPXcommand(){
 if [ $2 -eq 1 ]; then
      echo ""
      set -x
      $DEFAULT_TESTVPX_LOCATION/test-vpx -i "$1" --esx-hosts=$ESX_IP --vc-host=$VC_IP \
 --vc-user='administrator@vsphere.local' --vc-pwd='Admin!23' --esx-user=root --esx-pwd='ca$hc0w' \
---log-dir=$LOG_LOCATION -x host1_ip=$ESX_IP -x host2_ip=$ESX_IP -x config1_cache=$NUM_OF_CACHE \
+--log-dir=$LOG_LOCATION/$3 -x host1_ip=$ESX_IP -x host2_ip=$ESX_IP -x config1_cache=$NUM_OF_CACHE \
 -x config2_cache=$NUM_OF_CACHE -x config1_capacity=$NUM_OF_CAPACITY -x config2_capacity=$NUM_OF_CAPACITY
      set +x
 elif [ $2 -eq 2 ]; then
@@ -227,7 +233,7 @@ elif [ $2 -eq 2 ]; then
      set -x
      $DEFAULT_TESTVPX_LOCATION/test-vpx -i "$1" --esx-hosts=$ESX_IP,$ESX_IP2 --vc-host=$VC_IP \
 --vc-user='administrator@vsphere.local' --vc-pwd='Admin!23' --esx-user=root --esx-pwd='ca$hc0w' \
---log-dir=$LOG_LOCATION -x host1_ip=$ESX_IP -x host2_ip=$ESX_IP2 -x config1_cache=$NUM_OF_CACHE \
+--log-dir=$LOG_LOCATION/$3 -x host1_ip=$ESX_IP -x host2_ip=$ESX_IP2 -x config1_cache=$NUM_OF_CACHE \
 -x config2_cache=$NUM_OF_CACHE2 -x config1_capacity=$NUM_OF_CAPACITY -x config2_capacity=$NUM_OF_CAPACITY2
      set +x
 fi
@@ -240,7 +246,7 @@ if [ $2 -eq 1 ]; then
      set -x
      $DEFAULT_TESTVPX_LOCATION/test-vpx -i "$1" --esx-hosts=$ESX_IP --vc-host=$VC_IP \
 --vc-user='administrator@vsphere.local' --vc-pwd='Admin!23' --esx-user=root --esx-pwd='ca$hc0w' \
---log-dir=$LOG_LOCATION --kms-host=$KMS -x host1_ip=$ESX_IP -x host2_ip=$ESX_IP -x config1_cache=$NUM_OF_CACHE \
+--log-dir=$LOG_LOCATION/$3 --kms-host=$KMS -x host1_ip=$ESX_IP -x host2_ip=$ESX_IP -x config1_cache=$NUM_OF_CACHE \
 -x config2_cache=$NUM_OF_CACHE -x config1_capacity=$NUM_OF_CAPACITY -x config2_capacity=$NUM_OF_CAPACITY
      set +x
 elif [ $2 -eq 2 ]; then
@@ -248,7 +254,7 @@ elif [ $2 -eq 2 ]; then
      set -x
      $DEFAULT_TESTVPX_LOCATION/test-vpx -i "$1" --esx-hosts=$ESX_IP,$ESX_IP2 --vc-host=$VC_IP \
 --vc-user='administrator@vsphere.local' --vc-pwd='Admin!23' --esx-user=root --esx-pwd='ca$hc0w' \
---log-dir=$LOG_LOCATION --kms-host=$KMS -x host1_ip=$ESX_IP -x host2_ip=$ESX_IP2 -x config1_cache=$NUM_OF_CACHE \
+--log-dir=$LOG_LOCATION/$3 --kms-host=$KMS -x host1_ip=$ESX_IP -x host2_ip=$ESX_IP2 -x config1_cache=$NUM_OF_CACHE \
 -x config2_cache=$NUM_OF_CACHE2 -x config1_capacity=$NUM_OF_CAPACITY -x config2_capacity=$NUM_OF_CAPACITY2
      set +x
 fi
@@ -260,40 +266,53 @@ fi
 #
 #  Our testvpx framework execute tests randomly in a series.  This is fine on a single host
 #  It is not guarantee that the test will simultaneously when execute tests on both hosts.
-#  RunTest() will handle this case
+#  RunTest() will execute testVPX command and determine if it should run on 1 host or 2 hosts
+#
+#  all tests except encryption test will call testVPXcommand method to execute each test accordingly
+#          test will make a directory if testDir does not exist first
+#          testVPXcommand <testname-with-mapping-either-1host-or-2host> <number-of-esx-host> <testname>
+#
+#   encryptTest need to handle slightly different as that has KMS
+#
+#   2 scenarios:
+#         2 hosts: handle encryptionTest, All_short_tests, and all the rest of the tests
+#                  All_short_tests and individual short test will only run on 1 host
+#
+#          1 host: handle encryptionTest, All_short_tests, and all the rest of the tests
+#
 #
 runTest() {
 
 IFS=', '; read -ra arrayTestvpx <<< "$1"
-#
-# $NUMBER_OF_ESX - running on 1 ESX or 2 ESX
 if [ $NUMBER_OF_ESX -eq 2 ]; then
     # kick off each test one at at time on both hosts
     for i in "${arrayTestvpx[@]}"
     do
         checkTest $i
-
+        makeDir $i
         printf "\nNumber of test(s) to be executed: ${#arrayTestvpx[@]} \n\n"
         if [ $numOfHost -eq 2 ]; then
            TEST_FOR_ESX1=$(echo $TESTNAME | cut -d' ' -f1)
            TEST_FOR_ESX2=$(echo $TESTNAME | cut -d' ' -f2)
            if [ $i == "70r30w_long_mdCap_enc_af" ] || [ $i == "70r30w_long_99phr_enc" ]; then
-                encryptionTest "$TEST_FOR_ESX1,$TEST_FOR_ESX2" "2"
+                encryptionTest "$TEST_FOR_ESX1,$TEST_FOR_ESX2" "2" "$i"
            else
-                testVPXcommand "$TEST_FOR_ESX1,$TEST_FOR_ESX2" "2"
+                testVPXcommand "$TEST_FOR_ESX1,$TEST_FOR_ESX2" "2" "$i"
            fi
        elif [ $numOfHost -eq 1 ]; then
            # handle ALL-shortTests on 1 host
            if [ $i == "All_short_tests" ]; then
-               for ((j=1; j<${#shortTests[@]}; j++))
+               for ((j=0; j<${#shortTests[@]}; j++))
                do
                    TEST_FOR_ESX1=${shortTests[$j]}
-                   testVPXcommand "$TEST_FOR_ESX1" "1"
+                   TestDirForEachShortTest=$(echo $TEST_FOR_ESX1 | sed 's/vsan\/iocert\/ctrl_//g' | sed 's/.py//g')
+                   makeDir "$TestDirForEachShortTest"
+                   testVPXcommand "$TEST_FOR_ESX1" "1" "$TestDirForEachShortTest"
                done
            else
                # handle individual short test
                TEST_FOR_ESX1=$(echo $TESTNAME)
-               testVPXcommand "$TEST_FOR_ESX1" "1"
+               testVPXcommand "$TEST_FOR_ESX1" "1" "$i"
            fi
         else
            echo "cannot find tests"
@@ -304,25 +323,60 @@ elif [ $NUMBER_OF_ESX -eq 1 ]; then
     for i in "${arrayTestvpx[@]}"
     do
         checkTest $i
+        makeDir $i
         printf "\nNumber of test(s) to be executed: ${#arrayTestvpx[@]} \n\n"
         TEST_FOR_ESX1=$(echo $TESTNAME | cut -d' ' -f1)
         if [ $i == "70r30w_long_mdCap_enc_af" ] || [ $i == "70r30w_long_99phr_enc" ]; then
-            encryptionTest "$TEST_FOR_ESX1" "1"
-        else
-            testVPXcommand "$TEST_FOR_ESX1" "1"
-        fi
+            encryptionTest "$TEST_FOR_ESX1" "1" "$i"
         # handle all shortTests on 1 host
-        if [ $i == "All_short_tests" ]; then
-            for ((j=1; j<${#shortTests[@]}; j++))
+        elif [ "$i" == "All_short_tests" ]; then
+            for ((j=0; j<${#shortTests[@]}; j++))
             do
                 TEST_FOR_ESX1=${shortTests[$j]}
-                testVPXcommand "$TEST_FOR_ESX1" "1"
+                TestDirForEachShortTest=$(echo $TEST_FOR_ESX1 | sed 's/vsan\/iocert\/ctrl_//g' | sed 's/.py//g')
+                makeDir "All_short_tests/$TestDirForEachShortTest"
+                testVPXcommand "$TEST_FOR_ESX1" "1" "All_short_tests/$TestDirForEachShortTest"
             done
+        else
+            testVPXcommand "$TEST_FOR_ESX1" "1" "$i"
+       
         fi
     done
+#    # kick off each test on 1 host
+#    for i in "${arrayTestvpx[@]}"
+#    do
+#        checkTest $i
+#        makeDir $i
+#        printf "\nNumber of test(s) to be executed: ${#arrayTestvpx[@]} \n\n"
+#        TEST_FOR_ESX1=$(echo $TESTNAME | cut -d' ' -f1)
+#        if [ $i == "70r30w_long_mdCap_enc_af" ] || [ $i == "70r30w_long_99phr_enc" ]; then
+#            encryptionTest "$TEST_FOR_ESX1" "1" "$i"
+#        else
+#            echo "joe:::::: outside"
+#            testVPXcommand "$TEST_FOR_ESX1" "1" "$i"
+#        fi
+#        # handle all shortTests on 1 host
+#        if [ "$i" == "All_short_tests" ]; then
+#            for ((j=1; j<${#shortTests[@]}; j++))
+#            do
+#                TEST_FOR_ESX1=${shortTests[$j]}
+#                TestDirForEachShortTest=$(echo $TEST_FOR_ESX1 | sed 's/vsan\/iocert\/ctrl_//g' | sed 's/.py//g')
+#                makeDir "All_short_tests/$TestDirForEachShortTest"
+#                testVPXcommand "$TEST_FOR_ESX1" "1" "All_short_tests/$TestDirForEachShortTest"
+#            done
+#        fi
+#    done
+
 fi
 }
 
+
+makeDir() {
+    #check if workspace directory exist
+    if [ ! -d "$LOG_LOCATION/$1" ]; then
+       mkdir -p $LOG_LOCATION/$1
+    fi
+}
 
 AF1-Host() {
 #if not empty, then run individual test
