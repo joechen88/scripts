@@ -205,7 +205,7 @@ elif [ "$1" == "90r10w_short" ]; then
 elif [ "$1" == "ctrlr_100r0w_long_64k_af_c1" ]; then
   TESTNAME="${commonPath}100r0w_long_64k_af_c1.py"
   numOfHost=1
-elif [ "$1" == "ctrlr_70r30w_long_64k_af_c1.py" ]; then
+elif [ "$1" == "ctrlr_70r30w_long_64k_af_c1" ]; then
   TESTNAME="${commonPath}70r30w_long_64k_af_c1.py"
   numOfHost=1
 else
