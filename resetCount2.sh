@@ -224,12 +224,12 @@ echo "" >> targetreset-count.txt
 #
 # search vmkernel to see if there are any lun/target resets issued that is less than 1 seconds.
 #
-echo "Searching the list to see if there are any lun reset that is more than 1 second..."
+echo "Searching the list to see if there are any Target reset that is more than 1 second..."
 
 
 echo "" >> targetreset-count.txt
 echo "" >> targetreset-count.txt
-echo "=Lun reset in second(s)=" >> targetreset-count.txt
+echo "=Target reset in second(s)=" >> targetreset-count.txt
 echo "" >> targetreset-count.txt
 i=0
 
