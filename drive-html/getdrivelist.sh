@@ -27,7 +27,7 @@ cat << EOF
 EOF
 }
 
-while [ $# -ge 1 ]
+while [ $# -ge 0 ]
 do
    case "$1" in
     -h|--help)
