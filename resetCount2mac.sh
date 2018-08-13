@@ -76,10 +76,10 @@ while IFS= read -r -u3 File1 && IFS= read -r -u4 File2; do
 # read each line then Convert Date/Time into EPOCH for both files
 #
 dateTime1="$(echo ${File1} | awk '{print $1}' | sed s/.$//)"
-EPOC1="$(date +%s.%3N -d"$dateTime1")"
+EPOC1="$(gdate +%s.%3N -d"$dateTime1")"
 
 dateTime2="$(echo ${File2} | awk '{print $1}' | sed s/.$//)"
-EPOC2="$(date +%s.%3N -d"$dateTime2")"
+EPOC2="$(gdate +%s.%3N -d"$dateTime2")"
 
 #
 #  evaulate the time difference
@@ -256,10 +256,10 @@ while IFS= read -r -u3 File1 && IFS= read -r -u4 File2; do
 # read each line then Convert Date/Time into EPOCH for both files
 #
 dateTime1="$(echo ${File1} | awk '{print $1}' | sed s/.$//)"
-EPOC1="$(date +%s.%3N -d"$dateTime1")"
+EPOC1="$(gdate +%s.%3N -d"$dateTime1")"
 
 dateTime2="$(echo ${File2} | awk '{print $1}' | sed s/.$//)"
-EPOC2="$(date +%s.%3N -d"$dateTime2")"
+EPOC2="$(gdate +%s.%3N -d"$dateTime2")"
 
 #
 #  evaulate the time difference
