@@ -1,4 +1,9 @@
 #!/bin/bash
+#
+#  resetCount will capture each reset then calulate how long it takes
+#    for mac, you will need to install gdate as date from os x is not from GNU date
+#       brew install coreutils  -> will give you gdate
+#
 
 filename=$1
 declare -a timeValueArray   # create an empty array
@@ -104,9 +109,12 @@ printf "\n\n" >> lunreset-count.txt
 
 if [[ $lunIssueCount -eq $executedLunCount ]]; then
      numPerRow=$(($lunIssueCount / 12))
+elif [[ $lunIssueCount -lt $executedLunCount ]]; then
+     #if lunIssue count is not the same as executed out-of-band count, take the
+     #smallest value and divide that by 12 for each hour
+     numPerRow=$(($lunIssueCount / 12))
 else
-     #if lunIssue count is not the same as executed out-of-band count, default 20
-     numPerRow=20
+     numPerRow=$(($executedLunCount / 12))
 fi
 
 printf "== MAP ( Note: X resets per row in each hr; read from left to right; ie 5.001 =>5sec , 001 in milliseconds )==\n" >> lunreset-count.txt
@@ -283,10 +291,13 @@ printf "\n\n" >> targetreset-count.txt
 
 if [[ $targetIssueCount -eq $executedTargetCount ]]; then
      numPerRow=$(($targetIssueCount / 12))
-else
-     #if lunIssue count is not the same as executed out-of-band count, default 20
-     numPerRow=20
-fi
+ elif [[ $targetIssueCount -lt $executedTargetCount ]]; then
+      #if lunIssue count is not the same as executed out-of-band count, take the
+      #smallest value and divide that by 12 for each hour
+      numPerRow=$(($targetIssueCount/ 12))
+ else
+      numPerRow=$(($executedTargetCount / 12))
+ fi
 
 printf "== MAP ( Note: X resets per row in each hr; read from left to right; ie 5.001 =>5sec , 001 in milliseconds )==\n" >> targetreset-count.txt
 
