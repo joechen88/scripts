@@ -58,7 +58,7 @@ let k=0   # a counter keep track on shortIO that is less than 1 sec
 
 echo "" >> shortIO_logsummary_from_vmkernel.txt
 echo "" >> shortIO_logsummary_from_vmkernel.txt
-echo "=ShortIO load/unload that is less than 2 seconds=" >> shortIO_logsummary_from_vmkernel.txt
+echo "=ShortIO load/unload that is less than 1 second=" >> shortIO_logsummary_from_vmkernel.txt
 echo "" >> shortIO_logsummary_from_vmkernel.txt
 
 while read -r rowFromFile1 rowFromFile2 ; do
