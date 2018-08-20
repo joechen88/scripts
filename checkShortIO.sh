@@ -11,7 +11,7 @@ echo ""
 
 
 #
-# create 2 files:
+# create 2 files: 
 #     1) collect loading VProbe script in file1
 #     2) collect Script unloaded from vmkernel
 #
@@ -22,14 +22,14 @@ cat $filename | grep -iE "Script unloaded from vmkernel" > 2.txt
 #
 #  Populate a list of shortIO and put it in shortIO_logsummary_from_vmkernel.txt
 #
-echo "Collecting a list of shortIO load/unload from vmkernel..."
-paste 1.txt 2.txt | (
-let j=1
-while read -r rowFromFile1 rowFromFile2 ; do
-echo "$j: ${rowFromFile1}, ${rowFromFile2}" >> shortIO_logsummary_from_vmkernel.txt
-let j++
-done
-)
+#echo "Collecting a list of shortIO load/unload from vmkernel..."
+#paste 1.txt 2.txt | (
+#let j=1
+#while read -r rowFromFile1 rowFromFile2 ; do
+#echo "$j: ${rowFromFile1}, ${rowFromFile2}" >> shortIO_logsummary_from_vmkernel.txt
+#let j++
+#done
+#)
 
 
 #
@@ -48,17 +48,17 @@ echo "" >> shortIO_logsummary_from_vmkernel.txt
 
 
 #
-# search vmkernel to see if there are any ShortIOs issued that is less than 1 seconds.
+# search vmkernel to see if there are any ShortIOs issued that is less than 1 second.
 #
 echo "Searching the list to see if there are any shortIOs that is less than 1 second..."
-paste 1.txt 2.txt | (
+paste 1.txt 2.txt | ( 
 let i=1
 let k=0   # a counter keep track on shortIO that is less than 1 sec
 
 
 echo "" >> shortIO_logsummary_from_vmkernel.txt
 echo "" >> shortIO_logsummary_from_vmkernel.txt
-echo "=ShortIO load/unload that is less than 1 seconds=" >> shortIO_logsummary_from_vmkernel.txt
+echo "=ShortIO load/unload that is less than 2 seconds=" >> shortIO_logsummary_from_vmkernel.txt
 echo "" >> shortIO_logsummary_from_vmkernel.txt
 
 while read -r rowFromFile1 rowFromFile2 ; do
@@ -75,14 +75,14 @@ EPOC2="$(date +%s -d"$dateTime2")"
 
 
 #
-#  evaulate the time difference
-#  if shortIO is less than 2 seconds, return that output
+#  evaulate the time difference 
+#  if shortIO is less than 1 seconds, return that output
 #
 timeValue="$(expr $EPOC2 - $EPOC1)"
 if [[ $timeValue -lt 1 ]]; then
    echo "$i: ${rowFromFile1}, ${rowFromFile2}" >> shortIO_logsummary_from_vmkernel.txt
    echo "" >> shortIO_logsummary_from_vmkernel.txt
-   let k++
+   let k++ 
 fi
 
 let i++
@@ -97,7 +97,7 @@ echo "Scan finished..."
 echo ""
 echo "      shortIO_logsummary_form_vmkernel.txt has been created"
 echo ""
-)
+) 
 else
   echo ""
   echo ""
@@ -105,7 +105,7 @@ else
   echo ""
   echo "               example: sh checkShortIO.sh vmkernel.consolidated.log"
   echo ""
-  echo "           Note:  if there are multiple vmkernel logs, such as vmkernel.0.gz,vmkernel.1.gz,..etc "
+  echo "           Note:  if there are multiple vmkernel logs, such as vmkernel.0.gz,vmkernel.1.gz,..etc " 
   echo "                  ensure to consolidate the logs in a sorted order. "
   echo ""
 fi
