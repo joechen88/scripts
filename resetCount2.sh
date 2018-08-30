@@ -1,8 +1,8 @@
 #!/bin/bash
 #
 #  resetCount will capture each reset then calulate how long it takes
-#    
-#
+#      - list starting time of each reset, duration, and drive if it takes longer than 3 seconds  
+#  version: 1.01
 #
 
 filename=$1
@@ -12,6 +12,8 @@ declare -a timeValueArray   # create an empty array
 
 
 lunreset() {
+
+
 
 echo ""
 echo "Please allow some time to scan the log..."
@@ -65,8 +67,8 @@ echo "" >> lunreset-count.txt
 echo "" >> lunreset-count.txt
 echo "=Lun reset in second(s)=" >> lunreset-count.txt
 echo "" >> lunreset-count.txt
-i=0
 
+i=0
 
 #
 #  read 2 files at the same time line by line
@@ -92,12 +94,26 @@ EPOC2="$(date +%s.%3N -d"$dateTime2")"
 timeValue=$(expr $EPOC2-$EPOC1 | bc)
 
 timeValueArray[$i]="$timeValue"
+#printf ${timeValueArray[$i]}
+
+#get Device Name for each lun reset
+lunDeviceName=$(echo ${File1} | awk '{print $12}')
 
 ##
 ##  ${#var} - Will calulate the number of character
 ##
 #a[0]="$dateTime1"
-printf "$dateTime1 -- $timeValue \n" >> lunreset-count.txt
+
+#
+# print starting lun reset time and the duration 
+#     - if lun reset takes longer than 3 seconds, then print starting lun reset time, duration, and the device 
+#
+if [ $(echo "$timeValue > 3" | bc ) -eq 1 ];
+then
+    printf "$dateTime1 -- $timeValue  -- $lunDeviceName \n" >> lunreset-count.txt
+else
+    printf "$dateTime1 -- $timeValue \n" >> lunreset-count.txt
+fi
 
 let i++
 
@@ -108,8 +124,6 @@ printf "\n\n" >> lunreset-count.txt
 if [[ $lunIssueCount -eq $executedLunCount ]]; then
      numPerRow=$(($lunIssueCount / 12))
 elif [[ $lunIssueCount -lt $executedLunCount ]]; then
-     #if lunIssue count is not the same as executed out-of-band count, take the
-     #smallest value and divide that by 12 for each hour
      numPerRow=$(($lunIssueCount / 12))
 else
      numPerRow=$(($executedLunCount / 12))
@@ -144,13 +158,7 @@ do
           echo -n "$trackTime ->  " >> lunreset-count.txt
       fi
 
-#      if [[ ${timeValueArray[$k]} -lt 10 && ${timeValueArray[$k]} -gt 0 ]];
-#      then
-            # if num between 0-9, then add a 0 infront
-#            echo -n "0${timeValueArray[$k]}" >> lunreset-count.txt
-#      else
-            echo -n "${timeValueArray[$k]}" >> lunreset-count.txt
-#      fi
+      echo -n "${timeValueArray[$k]}" >> lunreset-count.txt
 
       let l++
       let trackTime++
@@ -159,14 +167,7 @@ do
     # will have 20 row per line
 elif [[ $l -lt $numPerRow ]]; then
 
-#      if [[ ${timeValueArray[$k]} -lt 10 && ${timeValueArray[$k]} -gt 0 ]];
-#      then
-            # if num between 0-9, then add a 0 infront
-#            echo -n "--0${timeValueArray[$k]}" >> lunreset-count.txt
-#      else
-            echo -n "--${timeValueArray[$k]}" >> lunreset-count.txt
-#      fi
-
+      echo -n "--${timeValueArray[$k]}" >> lunreset-count.txt
       let l++
 
     else
@@ -275,11 +276,20 @@ timeValue=$(expr $EPOC2-$EPOC1 | bc)
 
 timeValueArray[$i]="$timeValue"
 
+
+#get Device Name for each lun reset
+targetDeviceName=$(echo ${File1} | awk '{print $12}')
+
 ##
 ##  ${#var} - Will calulate the number of character
 ##
 #a[0]="$dateTime1"
-printf "$dateTime1 -- $timeValue \n" >> targetreset-count.txt
+if [ $(echo "$timeValue > 3" | bc ) -eq 1 ];
+then
+    printf "$dateTime1 -- $timeValue  -- $targetDeviceName \n" >> targetreset-count.txt
+else
+    printf "$dateTime1 -- $timeValue \n" >> targetreset-count.txt
+fi
 
 let i++
 
@@ -328,12 +338,7 @@ do
           echo -n "$trackTime ->  " >> targetreset-count.txt
        fi
 
-#       if [[ ${timeValueArray[$k]} -lt 10 && ${timeValueArray[$k]} -gt 0 ]];
-#       then
-#            echo -n "0${timeValueArray[$k]}" >> targetreset-count.txt
-#       else
-            echo -n "${timeValueArray[$k]}" >> targetreset-count.txt
-#       fi
+       echo -n "${timeValueArray[$k]}" >> targetreset-count.txt
 
        let l++
        let trackTime++
@@ -341,12 +346,7 @@ do
     # second+ elements will have --
     # will have X row per line
     elif [[ $l -lt numPerRow ]]; then
-#       if [[ ${timeValueArray[$k]} -lt 10.0 && ${timeValueArray[$k]} -gt 0 ]];
-#       then
-#            echo -n "--0${timeValueArray[$k]}" >> targetreset-count.txt
-#       else
-            echo -n "--${timeValueArray[$k]}" >> targetreset-count.txt
-#       fi
+       echo -n "--${timeValueArray[$k]}" >> targetreset-count.txt
 
        let l++
 
