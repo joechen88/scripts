@@ -47,8 +47,8 @@ cat $filename | grep -iE "Executed out-of-band lun reset" > 2.txt
 # get lun/target reset count
 #
 #echo "Get Lun/Target reset count..."
-echo "" >> lunreset-count.txt
-echo "" >> lunreset-count.txt
+echo ""
+echo "" 
 echo -e "Attempt to issue lun reset:"
 lunIssueCount=$(cat $filename | grep -c -iE "Attempt to issue lun reset")
 echo $lunIssueCount
@@ -68,6 +68,8 @@ echo ""
 echo ""
 echo ""
 echo "=Lun reset in second(s)="
+echo ""
+echo "Begining of each lun reset -- Duration -- (device will appear if more than 3 seconds)"
 echo ""
 
 i=0
@@ -251,6 +253,9 @@ echo ""
 echo ""
 echo "=Lun reset in second(s)="
 echo ""
+echo "Begining of each target reset -- Duration -- (device will appear if more than 3 seconds)"
+echo ""
+
 i=0
 
 
