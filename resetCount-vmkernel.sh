@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 #  resetCount will capture each reset then calulate how long it takes
-#      - list starting time of each reset, duration, and drive if it takes longer than 3 seconds  
+#      - list starting time of each reset, duration, and drive if it takes longer than 3 seconds
 #  version: 1.01
 #
 
@@ -17,9 +17,9 @@ lunreset() {
 
 
 
-echo ""
-echo "Please allow some time to scan the log..."
-echo ""
+#echo ""
+#echo "Please allow some time to scan the log..."
+#echo ""
 
 
 #
@@ -33,7 +33,7 @@ cat $filename | grep -iE "Executed out-of-band lun reset" > 2.txt
 #
 #  Populate a list of lun and target resets and put it in lun/target-count.txt
 #
-echo "Collecting a list of lun and target resets from vmkernel..."
+#echo "Collecting a list of lun and target resets from vmkernel..."
 #paste 1.txt 2.txt | (
 #let j=1
 #while read -r rowFromFile1 rowFromFile2 ; do
@@ -46,29 +46,29 @@ echo "Collecting a list of lun and target resets from vmkernel..."
 #
 # get lun/target reset count
 #
-echo "Get Lun/Target reset count..."
+#echo "Get Lun/Target reset count..."
 echo "" >> lunreset-count.txt
 echo "" >> lunreset-count.txt
-echo -e "Attempt to issue lun reset:" >> lunreset-count.txt
+echo -e "Attempt to issue lun reset:"
 lunIssueCount=$(cat $filename | grep -c -iE "Attempt to issue lun reset")
-echo $lunIssueCount >> lunreset-count.txt
-echo "" >> lunreset-count.txt
-echo -e "Executed out-of-band lun reset:" >> lunreset-count.txt
+echo $lunIssueCount
+echo ""
+echo -e "Executed out-of-band lun reset:"
 executedLunCount=$(cat $filename | grep -c -iE "Executed out-of-band lun reset")
-echo $executedLunCount >> lunreset-count.txt
-echo "" >> lunreset-count.txt
+echo $executedLunCount
+echo ""
 
 
 #
 # search vmkernel to see if there are any lun/target resets issued that is less than 1 seconds.
 #
-printf "Searching the list to see if there are any lun reset that is more than 1 second...\n\n"
+#printf "Searching the list to see if there are any lun reset that is more than 1 second...\n\n"
 
 
-echo "" >> lunreset-count.txt
-echo "" >> lunreset-count.txt
-echo "=Lun reset in second(s)=" >> lunreset-count.txt
-echo "" >> lunreset-count.txt
+echo ""
+echo ""
+echo "=Lun reset in second(s)="
+echo ""
 
 i=0
 
@@ -107,21 +107,21 @@ lunDeviceName=$(echo ${File1} | awk '{print $12}')
 #a[0]="$dateTime1"
 
 #
-# print starting lun reset time and the duration 
-#     - if lun reset takes longer than 3 seconds, then print starting lun reset time, duration, and the device 
+# print starting lun reset time and the duration
+#     - if lun reset takes longer than 3 seconds, then print starting lun reset time, duration, and the device
 #
 if [ $(echo "$timeValue > 3" | bc ) -eq 1 ];
 then
-    printf "$dateTime1 -- $timeValue  -- $lunDeviceName \n" >> lunreset-count.txt
+    printf "$dateTime1 -- $timeValue  -- $lunDeviceName \n"
 else
-    printf "$dateTime1 -- $timeValue \n" >> lunreset-count.txt
+    printf "$dateTime1 -- $timeValue \n"
 fi
 
 let i++
 
 done 3< 1.txt 4< 2.txt
 
-printf "\n\n" >> lunreset-count.txt
+printf "\n\n"
 
 if [[ $lunIssueCount -eq $executedLunCount ]]; then
      numPerRow=$(($lunIssueCount / 12))
@@ -131,8 +131,8 @@ else
      numPerRow=$(($executedLunCount / 12))
 fi
 
-printf "== MAP ( Note: X resets per row in each hr; read from left to right; ie 5.001 =>5sec , 001 in milliseconds )==\n" >> lunreset-count.txt
-printf "\n" >> lunreset-count.txt
+printf "== MAP ( Note: X resets per row in each hr; read from left to right; ie 5.001 => 5sec , 001 in milliseconds )==\n"
+printf "\n"
 
 #
 # read timeValueArray to get the graph
@@ -154,13 +154,13 @@ do
       then
           # trackTime is to represent each hour.
           # if num between 0-9, then add a 0 infront
-          echo -n "0$trackTime ->  " >> lunreset-count.txt
+          echo -n "0$trackTime ->  "
       else
           # trackTime is to represent each hour.
-          echo -n "$trackTime ->  " >> lunreset-count.txt
+          echo -n "$trackTime ->  "
       fi
 
-      echo -n "${timeValueArray[$k]}" >> lunreset-count.txt
+      echo -n "${timeValueArray[$k]}"
 
       let l++
       let trackTime++
@@ -169,12 +169,12 @@ do
     # will have 20 row per line
 elif [[ $l -lt $numPerRow ]]; then
 
-      echo -n "--${timeValueArray[$k]}" >> lunreset-count.txt
+      echo -n "--${timeValueArray[$k]}"
       let l++
 
     else
       # after 20 elements, it will make a newline
-      printf "\n" >> lunreset-count.txt
+      printf "\n"
       let l=0    # reset back to 1 to start a new line
       let k=k-1
 
@@ -182,23 +182,23 @@ elif [[ $l -lt $numPerRow ]]; then
 
 done
 
-    printf "\n\n" >> lunreset-count.txt
+    printf "\n\n"
 
 rm -f 1.txt
 rm -f 2.txt
-printf "\n\nScan finished..."
-echo ""
-echo "      lunreset-count.txt has been created"
-echo ""
+#printf "\n\nScan finished..."
+#echo ""
+#echo "      lunreset-count.txt has been created"
+#echo ""
 
 }
 
 
 targetreset() {
 
-echo ""
-echo "Please allow some time to scan the log..."
-echo ""
+#echo ""
+#echo "Please allow some time to scan the log..."
+#echo ""
 
 
 #
@@ -228,29 +228,29 @@ cat $filename | grep -iE "Executed out-of-band target reset" > 4.txt
 #
 
 
-echo "" >> targetreset-count.txt
-echo "" >> targetreset-count.txt
-echo -e "Attempt to issue target reset:" >> targetreset-count.txt
+echo ""
+echo ""
+echo -e "Attempt to issue target reset:"
 targetIssueCount=$(cat $filename | grep -c -iE "Attempt to issue target reset")
-echo $targetIssueCount >> targetreset-count.txt
-echo "" >> targetreset-count.txt
-echo -e "Executed out-of-band target reset:" >> targetreset-count.txt
+echo $targetIssueCount
+echo ""
+echo -e "Executed out-of-band target reset:"
 executedTargetCount=$(cat $filename | grep -c -iE "Executed out-of-band target reset")
-echo $executedTargetCount >> targetreset-count.txt
-echo "" >> targetreset-count.txt
+echo $executedTargetCount
+echo ""
 
 
 
 #
 # search vmkernel to see if there are any lun/target resets issued that is less than 1 seconds.
 #
-echo "Searching the list to see if there are any lun reset that is more than 1 second..."
+#echo "Searching the list to see if there are any lun reset that is more than 1 second..."
 
 
-echo "" >> targetreset-count.txt
-echo "" >> targetreset-count.txt
-echo "=Lun reset in second(s)=" >> targetreset-count.txt
-echo "" >> targetreset-count.txt
+echo ""
+echo ""
+echo "=Lun reset in second(s)="
+echo ""
 i=0
 
 
@@ -288,16 +288,16 @@ targetDeviceName=$(echo ${File1} | awk '{print $12}')
 #a[0]="$dateTime1"
 if [ $(echo "$timeValue > 3" | bc ) -eq 1 ];
 then
-    printf "$dateTime1 -- $timeValue  -- $targetDeviceName \n" >> targetreset-count.txt
+    printf "$dateTime1 -- $timeValue  -- $targetDeviceName \n"
 else
-    printf "$dateTime1 -- $timeValue \n" >> targetreset-count.txt
+    printf "$dateTime1 -- $timeValue \n"
 fi
 
 let i++
 
 done 3< 3.txt 4< 4.txt
 
-printf "\n\n" >> targetreset-count.txt
+printf "\n\n"
 
 if [[ $targetIssueCount -eq $executedTargetCount ]]; then
      numPerRow=$(($targetIssueCount / 12))
@@ -309,9 +309,9 @@ if [[ $targetIssueCount -eq $executedTargetCount ]]; then
       numPerRow=$(($executedTargetCount / 12))
  fi
 
-printf "== MAP ( Note: X resets per row in each hr; read from left to right; ie 5.001 =>5sec , 001 in milliseconds )==\n" >> targetreset-count.txt
+printf "== MAP ( Note: X resets per row in each hr; read from left to right; ie 5.001 => 5sec , 001 in milliseconds )==\n"
 
-printf "\n" >> targetreset-count.txt
+printf "\n"
 
 #
 # read timeValueArray to get the graph
@@ -334,13 +334,13 @@ do
        then
           # trackTime is to represent each hour.
           # if num between 0-9, then add a 0 infront
-          echo -n "0$trackTime ->  " >> targetreset-count.txt
+          echo -n "0$trackTime ->  "
        else
           # trackTime is to represent each hour.
-          echo -n "$trackTime ->  " >> targetreset-count.txt
+          echo -n "$trackTime ->  "
        fi
 
-       echo -n "${timeValueArray[$k]}" >> targetreset-count.txt
+       echo -n "${timeValueArray[$k]}"
 
        let l++
        let trackTime++
@@ -348,12 +348,12 @@ do
     # second+ elements will have --
     # will have X row per line
     elif [[ $l -lt numPerRow ]]; then
-       echo -n "--${timeValueArray[$k]}" >> targetreset-count.txt
+       echo -n "--${timeValueArray[$k]}"
 
        let l++
 
     else
-        printf "\n" >> targetreset-count.txt
+        printf "\n"
         let l=0
         let k=k-1
 
@@ -361,14 +361,14 @@ do
 
 done
 
-printf "\n\n" >> targetreset-count.txt
+printf "\n\n"
 
 rm -f 3.txt
 rm -f 4.txt
-printf "\n\nScan finished..."
-echo ""
-echo "      targetreset-count.txt has been created"
-echo ""
+#printf "\n\nScan finished..."
+#echo ""
+#echo "      targetreset-count.txt has been created"
+#echo ""
 
 }
 
