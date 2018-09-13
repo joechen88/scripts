@@ -23,12 +23,14 @@ lunreset() {
 #     1) collect loading VProbe script in file1
 #     2) collect Script unloaded from vmkernel
 #
-cat $filename | grep -iE "Attempt to issue lun reset" > 1.txt
 
 # in case if there's a retry during lun reset; remove duplicates
-cat $filename | grep -iE "Executed out-of-band lun reset" | tac | uniq -s 50 | tac > 2.txt
+cat $filename | grep -iE "Attempt to issue lun reset" | tac | uniq -f 8 | tac > 1.txt
+
+cat $filename | grep -iE "Executed out-of-band lun reset" > 2.txt
 
 # used for reoccurence
+cat $filename | grep -iE "Attempt to issue lun reset" > 1-tmp.txt
 cat $filename | grep -iE "Executed out-of-band lun reset" > 2-tmp.txt
 
 #
@@ -40,6 +42,8 @@ cat $filename | grep -iE "Executed out-of-band lun reset" > 2-tmp.txt
 #
 echo ""
 echo ""
+echo "= BEFORE ="
+echo ""
 echo -e "Attempt to issue lun reset:"
 lunIssueCount=$(cat $filename | grep -c -iE "Attempt to issue lun reset")
 echo $lunIssueCount
@@ -49,11 +53,24 @@ executedLunCount=$(cat $filename | grep -c -iE "Executed out-of-band lun reset")
 echo $executedLunCount
 echo ""
 
-#check reoccurence lun reset
+#check recurrence lun reset
 printf "\n\n"
-echo "= Re-occurrence reset such as retries ="
+echo "= Recurrence lun reset (retries) ="
 echo ""
-cat 2-tmp.txt | uniq -s 50 -d
+cat 1-tmp.txt | uniq -f 8 -d
+echo ""
+
+echo ""
+echo ""
+echo "= AFTER ( removing retries ) ="
+echo ""
+echo -e "Attempt to issue lun reset:"
+lunIssueCount1=$(cat 1-tmp.txt | uniq -f 8 | wc -l)
+echo $lunIssueCount1
+echo ""
+echo -e "Executed out-of-band lun reset:"
+executedLunCount2=$(cat 2-tmp.txt | uniq -f 8 | wc -l)
+echo $executedLunCount2
 echo ""
 
 
@@ -184,6 +201,7 @@ done
 
 rm -f 1.txt
 rm -f 2.txt
+rm -f 1-tmp.txt
 rm -f 2-tmp.txt
 
 }
@@ -196,12 +214,14 @@ targetreset() {
 #     1) collect loading VProbe script in file1
 #     2) collect Script unloaded from vmkernel
 #
-cat $filename | grep -iE "Attempt to issue target reset" > 3.txt
 
 # in case if there's a retry during lun reset; remove duplicates
-cat $filename | grep -iE "Executed out-of-band target reset" | gtac | uniq -s 50 | gtac > 4.txt
+cat $filename | grep -iE "Attempt to issue target reset" | tac | uniq -f 8 | tac > 3.txt
+
+cat $filename | grep -iE "Executed out-of-band target reset" > 4.txt
 
 # used for reoccurence
+cat $filename | grep -iE "Attempt to issue target reset" > 3-tmp.txt
 cat $filename | grep -iE "Executed out-of-band target reset" > 4-tmp.txt
 
 #
@@ -212,6 +232,8 @@ cat $filename | grep -iE "Executed out-of-band target reset" > 4-tmp.txt
 #
 
 echo ""
+echo ""
+echo "= BEFORE ="
 echo ""
 echo -e "Attempt to issue target reset:"
 targetIssueCount=$(cat $filename | grep -c -iE "Attempt to issue target reset")
@@ -224,10 +246,24 @@ echo ""
 
 #check reoccurence target reset
 printf "\n\n"
-echo "= Re-occurrence target reset such as retries ="
+echo "= Recurrence target reset (retries) ="
 echo ""
-cat 4-tmp.txt | uniq -s 50 -d
+cat 3-tmp.txt | uniq -f 8 -d
 echo ""
+echo ""
+
+echo ""
+echo "= AFTER (removing retries) ="
+echo ""
+echo -e "Attempt to issue target reset:"
+lunIssueCount1=$(cat 3-tmp.txt | uniq -f 8 | wc -l)
+echo $lunIssueCount1
+echo ""
+echo -e "Executed out-of-band target reset:"
+executedLunCount2=$(cat 4-tmp.txt | uniq -f 8 | wc -l)
+echo $executedLunCount2
+echo ""
+
 
 #
 # search vmkernel to see if there are any lun/target resets issued that is less than 1 seconds.
@@ -355,6 +391,7 @@ printf "\n\n"
 
 rm -f 3.txt
 rm -f 4.txt
+rm -f 3-tmp.txt
 rm -f 4-tmp.txt
 
 }
