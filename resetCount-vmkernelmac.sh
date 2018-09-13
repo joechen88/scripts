@@ -15,14 +15,19 @@ echo ""
 echo "Please allow some time to scan the log..."
 echo ""
 
-
 #
 # create files:
-#     1) collect loading VProbe script in file1
-#     2) collect Script unloaded from vmkernel
+#     1) collect Attempt to issue lun reset
+#     2) collect Executed out-of-band lun
 #
 cat $filename | grep -iE "Attempt to issue lun reset" > 1.txt
-cat $filename | grep -iE "Executed out-of-band lun reset" > 2.txt
+
+# in case if there's a retry during lun reset; remove duplicates
+cat $filename | grep -iE "Executed out-of-band lun reset" | gtac | uniq -s 50 | gtac > 2.txt
+
+# used for reoccurence
+cat $filename | grep -iE "Executed out-of-band lun reset" > 2-tmp.txt
+
 
 #
 #  Populate a list of lun and target resets and put it in lun/target-count.txt
@@ -30,7 +35,7 @@ cat $filename | grep -iE "Executed out-of-band lun reset" > 2.txt
 # get lun/target reset count
 #
 echo ""
-echo "" 
+echo ""
 echo -e "Attempt to issue lun reset:"
 lunIssueCount=$(cat $filename | grep -c -iE "Attempt to issue lun reset")
 echo $lunIssueCount
@@ -39,6 +44,15 @@ echo -e "Executed out-of-band lun reset:"
 executedLunCount=$(cat $filename | grep -c -iE "Executed out-of-band lun reset")
 echo $executedLunCount
 echo ""
+
+
+#check reoccurence lun reset
+printf "\n\n"
+echo "= Re-occurrence reset such as retries ="
+echo ""
+cat 2-tmp.txt | uniq -s 50 -d
+echo ""
+
 
 
 #
@@ -63,11 +77,20 @@ while IFS= read -r -u3 File1 && IFS= read -r -u4 File2; do
 # read each line then Convert Date/Time into EPOCH for both files
 #    .%3N will provide milliseconds
 #
+
+#currentDrive1="$(echo ${File1} | grep -iE "Attempt to issue lun reset" | awk '{print $12}' | sed 's/.$//')"
+#currentDrive1="$(echo ${File1} | grep -iE "Attempt to issue lun reset")"
 dateTime1="$(echo ${File1} | awk '{print $1}' | sed s/.$//)"
 EPOC1="$(gdate +%s.%3N -d"$dateTime1")"
 
+
+#currentDrive2="$(echo ${File2} | grep -iE "executed out-of-band lun" | awk '{print $9}')"
+#currentDrive2="$(echo ${File2} | grep -iE "executed out-of-band lun")"
 dateTime2="$(echo ${File2} | awk '{print $1}' | sed s/.$//)"
 EPOC2="$(gdate +%s.%3N -d"$dateTime2")"
+
+#printf "$currentDrive1 \n"
+#printf "$currentDrive2 \n"
 
 #
 #  evaulate the time difference
@@ -149,6 +172,7 @@ done
 
 rm -f 1.txt
 rm -f 2.txt
+rm -f 2-tmp.txt
 
 }
 
@@ -163,7 +187,12 @@ echo ""
 #     2) collect Script unloaded from vmkernel
 #
 cat $filename | grep -iE "Attempt to issue target reset" > 3.txt
-cat $filename | grep -iE "Executed out-of-band target reset" > 4.txt
+
+# in case if there's a retry during lun reset; remove duplicates
+cat $filename | grep -iE "Executed out-of-band target reset" | gtac | uniq -s 50 | gtac > 4.txt
+
+# used for reoccurence
+cat $filename | grep -iE "Executed out-of-band target reset" > 4-tmp.txt
 
 #
 # get target reset count
@@ -179,6 +208,14 @@ echo -e "Executed out-of-band target reset:"
 executedTargetCount=$(cat $filename | grep -c -iE "Executed out-of-band target reset")
 echo $executedTargetCount
 echo ""
+
+#check reoccurence target reset
+printf "\n\n"
+echo "= Re-occurrence target reset such as retries ="
+echo ""
+cat 4-tmp.txt | uniq -s 50 -d
+echo ""
+
 
 #
 # search vmkernel to see if there are any lun/target resets issued that is less than 1 seconds.
@@ -287,7 +324,7 @@ printf "\n\n"
 
 rm -f 3.txt
 rm -f 4.txt
-
+rm -f 4-tmp.txt
 }
 
 if [[ -n "$filename" ]]; then

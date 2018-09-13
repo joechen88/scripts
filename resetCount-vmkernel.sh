@@ -2,7 +2,8 @@
 #
 #  resetCount will capture each reset then calulate how long it takes
 #      - list starting time of each reset, duration, and drive if it takes longer than 3 seconds
-#  version: 1.01
+#      - capture lun/target retries; use the last reoccurence time to calculate the time
+#  version: 1.02
 #
 
 
@@ -11,16 +12,11 @@ filename=$2
 declare -a timeValueArray   # create an empty array
 
 
-
-
 lunreset() {
-
-
 
 #echo ""
 #echo "Please allow some time to scan the log..."
 #echo ""
-
 
 #
 # create files:
@@ -28,27 +24,22 @@ lunreset() {
 #     2) collect Script unloaded from vmkernel
 #
 cat $filename | grep -iE "Attempt to issue lun reset" > 1.txt
-cat $filename | grep -iE "Executed out-of-band lun reset" > 2.txt
+
+# in case if there's a retry during lun reset; remove duplicates
+cat $filename | grep -iE "Executed out-of-band lun reset" | tac | uniq -s 50 | tac > 2.txt
+
+# used for reoccurence
+cat $filename | grep -iE "Executed out-of-band lun reset" > 2-tmp.txt
 
 #
 #  Populate a list of lun and target resets and put it in lun/target-count.txt
 #
-#echo "Collecting a list of lun and target resets from vmkernel..."
-#paste 1.txt 2.txt | (
-#let j=1
-#while read -r rowFromFile1 rowFromFile2 ; do
-#echo "$j: ${rowFromFile1}, ${rowFromFile2}" >> lunreset-count.txt
-#let j++
-#done
-
-
 
 #
 # get lun/target reset count
 #
-#echo "Get Lun/Target reset count..."
 echo ""
-echo "" 
+echo ""
 echo -e "Attempt to issue lun reset:"
 lunIssueCount=$(cat $filename | grep -c -iE "Attempt to issue lun reset")
 echo $lunIssueCount
@@ -58,12 +49,17 @@ executedLunCount=$(cat $filename | grep -c -iE "Executed out-of-band lun reset")
 echo $executedLunCount
 echo ""
 
+#check reoccurence lun reset
+printf "\n\n"
+echo "= Re-occurrence reset such as retries ="
+echo ""
+cat 2-tmp.txt | uniq -s 50 -d
+echo ""
+
 
 #
 # search vmkernel to see if there are any lun/target resets issued that is less than 1 seconds.
 #
-#printf "Searching the list to see if there are any lun reset that is more than 1 second...\n\n"
-
 
 echo ""
 echo ""
@@ -188,20 +184,12 @@ done
 
 rm -f 1.txt
 rm -f 2.txt
-#printf "\n\nScan finished..."
-#echo ""
-#echo "      lunreset-count.txt has been created"
-#echo ""
+rm -f 2-tmp.txt
 
 }
 
 
 targetreset() {
-
-#echo ""
-#echo "Please allow some time to scan the log..."
-#echo ""
-
 
 #
 # create files:
@@ -209,26 +197,19 @@ targetreset() {
 #     2) collect Script unloaded from vmkernel
 #
 cat $filename | grep -iE "Attempt to issue target reset" > 3.txt
-cat $filename | grep -iE "Executed out-of-band target reset" > 4.txt
 
+# in case if there's a retry during lun reset; remove duplicates
+cat $filename | grep -iE "Executed out-of-band target reset" | gtac | uniq -s 50 | gtac > 4.txt
+
+# used for reoccurence
+cat $filename | grep -iE "Executed out-of-band target reset" > 4-tmp.txt
 
 #
 #  Populate a list of lun and target resets and put it in lun/target-count.txt
 #
-#paste 3.txt 4.txt | (
-#let k=1
-#while read -r rowFromFile3 rowFromFile4 ; do
-#echo "$k: ${rowFromFile3}, ${rowFromFile4}" >> targetreset-count.txt
-#let k++
-#done
-#)
-
-
-
 #
 # get target reset count
 #
-
 
 echo ""
 echo ""
@@ -241,13 +222,17 @@ executedTargetCount=$(cat $filename | grep -c -iE "Executed out-of-band target r
 echo $executedTargetCount
 echo ""
 
-
+#check reoccurence target reset
+printf "\n\n"
+echo "= Re-occurrence target reset such as retries ="
+echo ""
+cat 4-tmp.txt | uniq -s 50 -d
+echo ""
 
 #
 # search vmkernel to see if there are any lun/target resets issued that is less than 1 seconds.
 #
 #echo "Searching the list to see if there are any lun reset that is more than 1 second..."
-
 
 echo ""
 echo ""
@@ -370,13 +355,9 @@ printf "\n\n"
 
 rm -f 3.txt
 rm -f 4.txt
-#printf "\n\nScan finished..."
-#echo ""
-#echo "      targetreset-count.txt has been created"
-#echo ""
+rm -f 4-tmp.txt
 
 }
-
 
 
 if [[ -n "$filename" ]]; then
