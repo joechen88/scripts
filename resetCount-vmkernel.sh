@@ -57,7 +57,7 @@ echo ""
 printf "\n\n"
 echo "= Recurrence lun reset (retries) ="
 echo ""
-cat 1-tmp.txt | uniq -f 8 -d
+cat 1-tmp.txt | uniq -f 8 -d -c
 echo ""
 
 echo ""
@@ -248,7 +248,7 @@ echo ""
 printf "\n\n"
 echo "= Recurrence target reset (retries) ="
 echo ""
-cat 3-tmp.txt | uniq -f 8 -d
+cat 3-tmp.txt | uniq -f 8 -d -c
 echo ""
 echo ""
 
@@ -409,9 +409,9 @@ if [[ -n "$filename" ]]; then
 else
   echo ""
   echo ""
-  echo "	Usage: resetCount.sh <filename>"
+  echo "	Usage: resetCount-vmkernel.sh <filename>"
   echo ""
-  echo "               example: sh resetCount.sh <type-of-reset>  <vmkernel.consolidated.log>"
+  echo "               example: sh resetCount-vmkernel.sh <type-of-reset>  <vmkernel.consolidated.log>"
   echo ""
   echo "                            type-of-reset:  targetreset"
   echo "                                            lunreset"
