@@ -357,7 +357,7 @@ elif [ $NUMBER_OF_ESX -eq 1 ]; then
         if [ $i == "70r30w_long_mdCap_enc_af" ] || [ $i == "70r30w_long_99phr_enc" ]; then
             encryptionTest "$TEST_FOR_ESX1" "1" "$i"
         elif [ $i == "Log-Compaction-AF" ] || [ $i == "Log-Compaction-HY" ]; then
-            LogCompactionTest "$TEST_FOR_ESX1,$TEST_FOR_ESX2" "1" "$i"
+            LogCompactionTest "$TEST_FOR_ESX1" "1" "$i"
         # handle all shortTests on 1 host
         elif [ "$i" == "All_short_tests" ]; then
             for ((j=0; j<${#shortTests[@]}; j++))
