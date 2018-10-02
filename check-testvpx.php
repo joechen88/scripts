@@ -62,7 +62,13 @@ function getTestName($tpath) {
   if (preg_match("/test-vpx.vsan.fvt.test.lsom.diskmanagement.diskRemoveReinsertPlanned_RAID1/", $tpath) ) {
 	$testname = 'hp-planned';
   } 
-  elseif (preg_match("/test-vpx.vsan.fvt.test.lsom.diskmanagement.diskRemoveReinsertPlanned_RAID1/", $tpath )) {
+  elseif (preg_match("/test-vpx.vsan.fvt.test.lsom.diskmanagement.diskRemoveReinsertUnplanned_RAID1/", $tpath )) {
+        $testname = 'hp-unplanned';
+  }
+  elseif (preg_match("/test-vpx.vsan.fvt.test.lsom.diskmanagement.af_diskRemoveReinsertPlanned_RAID1/", $tpath )) {
+        $testname = 'hp-planned';
+  }
+  elseif (preg_match("/test-vpx.vsan.fvt.test.lsom.diskmanagement.af_diskRemoveReinsertUnplanned_RAID1/", $tpath )) {
         $testname = 'hp-unplanned';
   }
   elseif (preg_match("/test-vpx.vsan.iocert.ctrl_combined_long/", $tpath) ) {
