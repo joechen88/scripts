@@ -1303,7 +1303,8 @@ def collectLogs(filename, testName):
             hyEncryptionMSG.append(line)
 
         if re.match(
-                "(.*)EnablePerfService|(.*)perf service start|(.*)successfully enable perf service",
+                "(.*)Deploying VMs|(.*)EnablePerfService|(.*)perf service start|(.*)successfully enable perf service|"
+                "(.*)Starting 70r30w|(.*)Starting 100r test|(.*)Starting 100w test",
                 line):
             perfservice.append(line)
 
