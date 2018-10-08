@@ -1280,7 +1280,7 @@ def collectLogs(filename, testName):
             hy100phr.append(line)
 
         if re.match(
-                "(.*)Starting 70r30w 100%  hit rate checksum|(.*)70r30w 100%  hit rate checksum test complete",
+                "(.*)Starting 70r30w 100% hit rate checksum|(.*)70r30w 100%  hit rate checksum test complete",
                 line):
             hy100phrchksum.append(line)
 
