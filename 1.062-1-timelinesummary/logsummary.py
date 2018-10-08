@@ -42,6 +42,7 @@ ipAddress = []
 deployVMtime = ""
 allVMDeployedtime = ""
 ddInfo = []
+perfservice = []
 diskHealthCheck = []
 VMIOThread = []
 wbUsage = []
@@ -547,6 +548,11 @@ def displaySummary(testName, hostName, test, testVer, deployVMtime,
 
     print "=WorkBench/ESX time="
     print esxWBtime
+    print "\n\n"
+
+    print "=Perf service="
+    for y, x in enumerate(perfservice):
+	print x,
     print "\n\n"
 
     #Hotplug planned, unplanned
@@ -1297,6 +1303,11 @@ def collectLogs(filename, testName):
             hyEncryptionMSG.append(line)
 
         if re.match(
+                "(.*)EnablePerfService|(.*)perf service start|(.*)successfully enable perf service",
+                line):
+            perfservice.append(line)
+
+        if re.match(
                 "(.*)(Starting IOBlazer|Starting FIO runs|Done running FIO)",
                 line):
             startFIOendFIO.append(line)
@@ -1343,7 +1354,7 @@ def collectLogs(filename, testName):
         if re.match(
                 "(.*)Found the user prompt|(.*)Please reinsert|(.*)Deleting|(.*)Found all "
                 "the components|(\s*)expected State ABSENT|(\s*)expected "
-                "State ACTIVE|(\s*)expected State DEGRADED",
+                "State ACTIVE|(\s*)expected State DEGRADED|(.*)Decommissioning the disks|(.*)Decommissioning of the disks",
                 line):
             hpMidSummary.append(line)
 
