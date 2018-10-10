@@ -52,10 +52,10 @@ ShortIO-AF,Stress-AF"
 #
 #  AF_TESTS and HY_TESTS are used for sanity checking purpose
 #
-HY_TESTS="CombineLong,70r30w_long_99phr_enc,Reset-HY,ShortIO-HY,Stress-HY"
+HY_TESTS="CombineLong,70r30w_long_99phr_enc,Reset-HY,ShortIO-HY,Stress-HY,Log-Compaction-HY"
 AF_TESTS="100r0w_long_af,0r100w_long_4k_af,0r100w_long_64k_af,\
 70r30w_long_50gb_af,70r30w_long_mdCap_af,70r30w_long_mdCap_enc_af,Reset-AF,Data_integrity_af,\
-ShortIO-AF,Stress-AF,ctrlr_100r0w_long_64k_af_c1,ctrlr_70r30w_long_64k_af_c1"
+ShortIO-AF,Stress-AF,ctrlr_100r0w_long_64k_af_c1,ctrlr_70r30w_long_64k_af_c1,Log-Compaction-af"
 
 
 displayTest(){
@@ -146,6 +146,9 @@ elif [ "$1" == "ShortIO-HY" ]; then
 elif [ "$1" == "Stress-HY" ]; then
   TESTNAME="${commonPath}stress_c1.py,${commonPath}stress_c2.py"
   numOfHost=2
+elif [ "$1" == "Log-Compaction-HY" ]; then
+  TESTNAME="${commonPath}log_compaction_c1.py,${commonPath}log_compaction_c2.py"
+  numOfHost=2
 elif [ "$1" == "100r0w_long_af" ]; then
   TESTNAME="${commonPath}100r0w_long_af_c1.py,${commonPath}100r0w_long_af_c2.py"
   numOfHost=2
@@ -175,6 +178,9 @@ elif [ "$1" == "Stress-AF" ]; then
   numOfHost=2
 elif [ "$1" == "ShortIO-AF" ]; then
   TESTNAME="${commonPath}short_timeout_io_af_c1.py,${commonPath}short_timeout_io_af_c2.py"
+  numOfHost=2
+elif [ "$1" == "Log-Compaction-AF" ]; then
+  TESTNAME="${commonPath}log_compaction_c1.py,${commonPath}log_compaction_c2.py"
   numOfHost=2
 elif [ "$1" == "All_short_tests" ]; then
   TESTNAME="${commonPath1}100r0w_short.py,${commonPath1}0r100w_short.py,${commonPath1}10r90w_short.py,\
@@ -261,6 +267,26 @@ fi
 }
 
 
+# Log compaction Test skipping test cleanup as there is nothing to cleanup
+LogCompactionTest(){
+if [ $2 -eq 1 ]; then
+     echo ""
+     set -x
+     $DEFAULT_TESTVPX_LOCATION/test-vpx -i "$1" --esx-hosts=$ESX_IP --vc-host=$VC_IP \
+--vc-user='administrator@vsphere.local' --vc-pwd='Admin!23' --esx-user=root --esx-pwd='ca$hc0w' \
+--log-dir=$LOG_LOCATION/$3 --skip-vsan-cleanup -x host1_ip=$ESX_IP -x host2_ip=$ESX_IP -x config1_cache=$NUM_OF_CACHE \
+-x config2_cache=$NUM_OF_CACHE -x config1_capacity=$NUM_OF_CAPACITY -x config2_capacity=$NUM_OF_CAPACITY
+     set +x
+elif [ $2 -eq 2 ]; then
+     echo ""
+     set -x
+     $DEFAULT_TESTVPX_LOCATION/test-vpx -i "$1" --esx-hosts=$ESX_IP,$ESX_IP2 --vc-host=$VC_IP \
+--vc-user='administrator@vsphere.local' --vc-pwd='Admin!23' --esx-user=root --esx-pwd='ca$hc0w' \
+--log-dir=$LOG_LOCATION/$3 --skip-vsan-cleanup -x host1_ip=$ESX_IP -x host2_ip=$ESX_IP2 -x config1_cache=$NUM_OF_CACHE \
+-x config2_cache=$NUM_OF_CACHE2 -x config1_capacity=$NUM_OF_CAPACITY -x config2_capacity=$NUM_OF_CAPACITY2
+     set +x
+fi
+}
 
 
 #
@@ -296,6 +322,8 @@ if [ $NUMBER_OF_ESX -eq 2 ]; then
            TEST_FOR_ESX2=$(echo $TESTNAME | cut -d' ' -f2)
            if [ $i == "70r30w_long_mdCap_enc_af" ] || [ $i == "70r30w_long_99phr_enc" ]; then
                 encryptionTest "$TEST_FOR_ESX1,$TEST_FOR_ESX2" "2" "$i"
+           elif [ $i == "Log-Compaction-AF" ] || [ $i == "Log-Compaction-HY" ]; then
+		LogCompactionTest "$TEST_FOR_ESX1,$TEST_FOR_ESX2" "2" "$i"
            else
                 testVPXcommand "$TEST_FOR_ESX1,$TEST_FOR_ESX2" "2" "$i"
            fi
@@ -328,6 +356,8 @@ elif [ $NUMBER_OF_ESX -eq 1 ]; then
         TEST_FOR_ESX1=$(echo $TESTNAME | cut -d' ' -f1)
         if [ $i == "70r30w_long_mdCap_enc_af" ] || [ $i == "70r30w_long_99phr_enc" ]; then
             encryptionTest "$TEST_FOR_ESX1" "1" "$i"
+        elif [ $i == "Log-Compaction-AF" ] || [ $i == "Log-Compaction-HY" ]; then
+            LogCompactionTest "$TEST_FOR_ESX1" "1" "$i"
         # handle all shortTests on 1 host
         elif [ "$i" == "All_short_tests" ]; then
             for ((j=0; j<${#shortTests[@]}; j++))
