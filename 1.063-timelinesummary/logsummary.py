@@ -43,6 +43,7 @@ deployVMtime = ""
 allVMDeployedtime = ""
 ddInfo = []
 diskHealthCheck = []
+perfservice = []
 VMIOThread = []
 wbUsage = []
 hy100r = []
@@ -549,6 +550,12 @@ def displaySummary(testName, hostName, test, testVer, deployVMtime,
     print "=WorkBench/ESX time="
     print esxWBtime
     print "\n\n"
+
+    print "=Perf service="
+    for y, x in enumerate(perfservice):
+        print x,
+    print "\n\n"
+
 
     #Hotplug planned, unplanned
     if testName == "hp-planned" or testName == "hp-unplanned":
@@ -1282,7 +1289,7 @@ def collectLogs(filename, testName):
             hy100phr.append(line)
 
         if re.match(
-                "(.*)Starting 70r30w 100%  hit rate checksum|(.*)70r30w 100%  hit rate checksum test complete",
+                "(.*)Starting 70r30w 100% hit rate checksum|(.*)70r30w 100%  hit rate checksum test complete",
                 line):
             hy100phrchksum.append(line)
 
@@ -1303,6 +1310,12 @@ def collectLogs(filename, testName):
                 "False|(.*)Encryption disabled successfully",
                 line):
             hyEncryptionMSG.append(line)
+
+        if re.match(
+                "(.*)Deploying VMs|(.*)EnablePerfService|(.*)perf service start|(.*)successfully enable perf service|"
+                "(.*)Starting 70r30w|(.*)Starting 100r test|(.*)Starting 100w test",
+                line):
+            perfservice.append(line)
 
         if re.match(
                 "(.*)(Starting IOBlazer|Starting FIO runs|Done running FIO)",
