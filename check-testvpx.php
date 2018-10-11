@@ -110,6 +110,9 @@ function getTestName($tpath) {
   elseif (preg_match("/ctrlr_70r30w_long_mdCap_enc_af/", $tpath) ) {
         $testname = 'af-enc';
   }
+  elseif (preg_match("/trlr_log_compaction/", $tpath) ) {
+         $testname = 'log-compaction';
+  }
   else {
 	$testname = 'short';
   }
