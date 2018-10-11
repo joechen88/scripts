@@ -1,5 +1,5 @@
 #!/usr/bin/python
-#version 1.062
+#version 1.063
 # lightgreen and lightblue theme
 import scandir, os, subprocess, re, datetime, fnmatch
 
@@ -128,6 +128,9 @@ def getTestName(tn):
         or tn == "af_diskRemoveReinsertPlanned" or tn == "af_diskRemoveReinsertUnplanned":
         return "*diskRemove*"
 
+    if tn == "log_compaction_c1" or tn == "log_compaction_c2":
+        return "ctrlr_log_compaction_*"
+
 
 
 def statsDir(test, testvpxlocation, hn, numOfHost):
@@ -217,6 +220,9 @@ def writeSummaryToHTML(summary):
 
             if testvpx == "7day_stress_c1" or testvpx == "7day_stress_c2" \
                 or testvpx == "7day_stress_af_c1" or testvpx == "7day_stress_af_c2":
+                  statsHTMLlink = 'dir'
+
+            if testvpx == "log_compaction_c1" or testvpx == "log_compaction_c2":
                   statsHTMLlink = 'dir'
             else:
                 statsHTMLlink = 'stats-html'
@@ -579,6 +585,11 @@ def checkDir(testVPXlocation, hn):
 
 
 
+#
+#  genLogsummary by calling logsummary.py to create log summary for each test
+#       need currentPath, actual test-vpx file for c1 and c2
+#             testname when executing through logsummary.py and the output
+#
 def runLogSummary(currentPath, testname):
 
 	# getinfo ----------------------------------------------------------------------------------
@@ -797,6 +808,16 @@ def runLogSummary(currentPath, testname):
 	if testname == "test-vpx.vsan.iocert.ctrlr_stress_c2.log":
 	    genLogsummary(currentPath, "test-vpx.vsan.iocert.ctrlr_stress_c2.log", \
                                 "stress", "summary-ctrlr_stress_c2.txt")
+
+    # Log Compaction -------------------------------------------------------------------------------
+	if testname == "test-vpx.vsan.iocert.ctrlr_log_compaction_c1.log":
+	    genLogsummary(currentPath, "test-vpx.vsan.iocert.ctrlr_log_compaction_c1.log", \
+                                "log-compaction", "summary-ctrlr_log_compaction_c1.txt")
+
+	if testname == "test-vpx.vsan.iocert.ctrlr_log_compaction_c2.log":
+	    genLogsummary(currentPath, "test-vpx.vsan.iocert.ctrlr_log_compaction_c2.log", \
+                                "log-compaction", "summary-ctrlr_log_compaction_c2.txt")
+
 	# Hotplug --------------------------------------------------------------------------------------
 	if testname == "test-vpx.vsan.fvt.test.lsom.diskmanagement.diskRemoveReinsertPlanned_RAID1.log":
 	    genLogsummary(currentPath, "test-vpx.vsan.fvt.test.lsom.diskmanagement.diskRemoveReinsertPlanned_RAID1.log", \

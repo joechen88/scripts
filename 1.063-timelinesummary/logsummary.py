@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-#version 1.062
+#version 1.063
 import argparse, re, os, subprocess, datetime, sys, fnmatch, scandir
 from dateutil import relativedelta
 from optparse import OptionParser
@@ -42,7 +42,6 @@ ipAddress = []
 deployVMtime = ""
 allVMDeployedtime = ""
 ddInfo = []
-perfservice = []
 diskHealthCheck = []
 VMIOThread = []
 wbUsage = []
@@ -86,6 +85,7 @@ tmpCtrlDetail = []
 esxcfgscsidevsA = []
 FdsOpenMaxRetries = []
 sharedVMFS = []
+logCompaction = []
 
 
 ###############################################################################
@@ -550,11 +550,6 @@ def displaySummary(testName, hostName, test, testVer, deployVMtime,
     print esxWBtime
     print "\n\n"
 
-    print "=Perf service="
-    for y, x in enumerate(perfservice):
-	print x,
-    print "\n\n"
-
     #Hotplug planned, unplanned
     if testName == "hp-planned" or testName == "hp-unplanned":
         print "=LED INFO="
@@ -939,6 +934,11 @@ def displaySummary(testName, hostName, test, testVer, deployVMtime,
 
             print "\n"
 
+        if testName == "log-compaction":
+            print "=Log Compaction results="
+            for y, x in enumerate(logCompaction):
+                print x,
+
 
         if testName == "7day":
             print "=Number of test days="
@@ -1042,6 +1042,7 @@ def collectLogs(filename, testName):
     global diskResult, Name, vsanUUID, State, isCapacity, bootbank
     global tmpDiskResults
     global sharedVMFS
+    global logCompaction
 
     readFile = open(filename, "r")
 
@@ -1065,7 +1066,8 @@ def collectLogs(filename, testName):
         "hy-enc": ["Hybrid 70r30w long 99phr enc test (8:33 hrs max)"],
         "hp-planned": ["diskRemoveReinsertPlanned test"],
         "hp-unplanned": ["diskRemoveReinsertUnplanned test"],
-        "sharedvmfs": ["AF/HY SharedVMFS vsanDatastore (24hrs max)"]
+        "sharedvmfs": ["AF/HY SharedVMFS vsanDatastore (24hrs max)"],
+        "log-compaction": ["Log Compaction test (4 hrs max)"]
     }
 
     print(banner(testname_description_map[testName]))
@@ -1280,7 +1282,7 @@ def collectLogs(filename, testName):
             hy100phr.append(line)
 
         if re.match(
-                "(.*)Starting 70r30w 100% hit rate checksum|(.*)70r30w 100%  hit rate checksum test complete",
+                "(.*)Starting 70r30w 100%  hit rate checksum|(.*)70r30w 100%  hit rate checksum test complete",
                 line):
             hy100phrchksum.append(line)
 
@@ -1303,12 +1305,6 @@ def collectLogs(filename, testName):
             hyEncryptionMSG.append(line)
 
         if re.match(
-                "(.*)Deploying VMs|(.*)EnablePerfService|(.*)perf service start|(.*)successfully enable perf service|"
-                "(.*)Starting 70r30w|(.*)Starting 100r test|(.*)Starting 100w test",
-                line):
-            perfservice.append(line)
-
-        if re.match(
                 "(.*)(Starting IOBlazer|Starting FIO runs|Done running FIO)",
                 line):
             startFIOendFIO.append(line)
@@ -1329,6 +1325,10 @@ def collectLogs(filename, testName):
         if re.match("(.*)(starting device reset|Starting controller reset)",
                     line):
             resetStart.append(line)
+
+        if re.match("(.*)(PrintDevVmhbaStats)",
+                    line):
+            logCompaction.append(line)
 
         if re.match("(.*)(Running busreset)", line):
             busReset.append(line)
@@ -1411,7 +1411,7 @@ def main():
         help="Test Name: "
         "short, af-100r0w, 4k, 64k, mdCap, 50gb, 7day, stress, reset, shortio, "
         "af-data-integrity, af-enc, hy-enc, combinedLong, hp-planned, "
-        "hp-unplanned, getinfo, sharedvmfs")
+        "hp-unplanned, getinfo, sharedvmfs, log-compaction")
     opt, args = parser.parse_args()
     if not opt.fname or not opt.tname:
         print("Invalid arguments.")
