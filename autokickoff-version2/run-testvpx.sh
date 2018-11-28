@@ -274,7 +274,7 @@ if [ $2 -eq 1 ]; then
      set -x
      $DEFAULT_TESTVPX_LOCATION/test-vpx -i "$1" --esx-hosts=$ESX_IP --vc-host=$VC_IP \
 --vc-user='administrator@vsphere.local' --vc-pwd='Admin!23' --esx-user=root --esx-pwd='ca$hc0w' \
---log-dir=$LOG_LOCATION/$3 --skip-test-cleanup -x host1_ip=$ESX_IP -x host2_ip=$ESX_IP -x config1_cache=$NUM_OF_CACHE \
+--log-dir=$LOG_LOCATION/$3 --skip-vsan-cleanup -x host1_ip=$ESX_IP -x host2_ip=$ESX_IP -x config1_cache=$NUM_OF_CACHE \
 -x config2_cache=$NUM_OF_CACHE -x config1_capacity=$NUM_OF_CAPACITY -x config2_capacity=$NUM_OF_CAPACITY
      set +x
 elif [ $2 -eq 2 ]; then
@@ -282,7 +282,7 @@ elif [ $2 -eq 2 ]; then
      set -x
      $DEFAULT_TESTVPX_LOCATION/test-vpx -i "$1" --esx-hosts=$ESX_IP,$ESX_IP2 --vc-host=$VC_IP \
 --vc-user='administrator@vsphere.local' --vc-pwd='Admin!23' --esx-user=root --esx-pwd='ca$hc0w' \
---log-dir=$LOG_LOCATION/$3 --skip-test-cleanup -x host1_ip=$ESX_IP -x host2_ip=$ESX_IP2 -x config1_cache=$NUM_OF_CACHE \
+--log-dir=$LOG_LOCATION/$3 --skip-vsan-cleanup -x host1_ip=$ESX_IP -x host2_ip=$ESX_IP2 -x config1_cache=$NUM_OF_CACHE \
 -x config2_cache=$NUM_OF_CACHE2 -x config1_capacity=$NUM_OF_CAPACITY -x config2_capacity=$NUM_OF_CAPACITY2
      set +x
 fi

@@ -1,21 +1,25 @@
 #!/bin/bash
 
-dbcpath=$1
+dbcAndPXEINSTALLpath=$1
 
-echo "Current OB-builds in PXEDEPLOY/pxeinstall dir:"
+echo "Current OB-builds in PXEDEPLOY dir:"
 echo "======="
-find $dbcpath -maxdepth 1 -type d
+find $dbcAndPXEINSTALLpath/. -maxdepth 1 -type d
 echo "======="
 
-chkISOCount=$(find $dbcpath/. -maxdepth 1 -type d -print| wc -l)
+chkISOCount=$(find $dbcAndPXEINSTALLpath/. -maxdepth 1 -type d -print| wc -l)
 
+#
+#  If there are more than 5 PXE images, remove the oldest PXE image
+#
 #
 #  $chkISOCount-1 is needed bc find is treating ".." as a directory
 #
-if [[ $chkISOCount-1 -gt 3 ]]; then
-    removeDir=$(cd $dbcpath && ls -t1 | tail -n 1)
-    echo -e "Remove \"$removeDir\" dir\n"
-    rm -rf $removeDir
+chkISOCount=$(($chkISOCount-1))
+if [ $chkISOCount -gt 5 ]; then
+    removeDir=$(cd $dbcAndPXEINSTALLpath && ls -t1 | tail -n 1)
+    echo -e "Remove $dbcAndPXEINSTALLpath/$removeDir dir"
+    rm -rf $dbcAndPXEINSTALLpath/$removeDir
 else
-    printf "\nCleanup is not needed since you have less than 3 OB-builds\n\n"
+    printf "\nCleanup is not needed since you have less than 5 OB-builds\n\n"
 fi
