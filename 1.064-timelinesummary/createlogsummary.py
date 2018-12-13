@@ -1,5 +1,5 @@
 #!/usr/bin/python
-#version 1.063
+#version 1.064
 # lightgreen and lightblue theme
 import scandir, os, subprocess, re, datetime, fnmatch
 
