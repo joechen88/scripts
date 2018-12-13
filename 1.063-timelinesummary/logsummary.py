@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-#version 1.063
+#version 1.064
 import argparse, re, os, subprocess, datetime, sys, fnmatch, scandir
 from dateutil import relativedelta
 from optparse import OptionParser
@@ -1367,6 +1367,7 @@ def collectLogs(filename, testName):
 
         if re.match(
                 "(.*)Found the user prompt|(.*)Please reinsert|(.*)Deleting|(.*)Found all "
+                "(.*)isDiskMissing|(.*)waitForDiskPresence"
                 "the components|(\s*)expected State ABSENT|(\s*)expected "
                 "State ACTIVE|(\s*)expected State DEGRADED|(.*)Decommissioning the disks|(.*)Decommissioning of the disks",
                 line):
@@ -1376,6 +1377,7 @@ def collectLogs(filename, testName):
         if re.match(
                 "(.*)Simple component state|(.*)Found the user "
                 "prompt|(.*)Please reinsert|(.*)Found all the "
+                "(.*)isDiskMissing|(.*)waitForDiskPresence"
                 "components|(\s*)expected State ABSENT|(\s*)expected State "
                 "ACTIVE|(\s*)expected State DEGRADED",
                 line):
