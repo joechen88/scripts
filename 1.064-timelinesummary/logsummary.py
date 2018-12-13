@@ -1367,9 +1367,9 @@ def collectLogs(filename, testName):
 
         if re.match(
                 "(.*)Found the user prompt|(.*)Please reinsert|(.*)Deleting|(.*)Found all "
-                "(.*)isDiskMissing|(.*)waitForDiskPresence"
                 "the components|(\s*)expected State ABSENT|(\s*)expected "
-                "State ACTIVE|(\s*)expected State DEGRADED|(.*)Decommissioning the disks|(.*)Decommissioning of the disks",
+                "State ACTIVE|(\s*)expected State DEGRADED|(.*)Decommissioning the disks|(.*)Decommissioning of the disks|"
+		"(.*)isDiskMissing|(.*)waitForDiskPresence",
                 line):
             hpMidSummary.append(line)
 
@@ -1377,9 +1377,9 @@ def collectLogs(filename, testName):
         if re.match(
                 "(.*)Simple component state|(.*)Found the user "
                 "prompt|(.*)Please reinsert|(.*)Found all the "
-                "(.*)isDiskMissing|(.*)waitForDiskPresence"
                 "components|(\s*)expected State ABSENT|(\s*)expected State "
-                "ACTIVE|(\s*)expected State DEGRADED",
+                "ACTIVE|(\s*)expected State DEGRADED|"
+		"(.*)isDiskMissing|(.*)waitForDiskPresence",
                 line):
             hpFullSummary.append(line)
 
