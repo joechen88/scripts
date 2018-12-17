@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 ESXHOST=$1
 esxPW="ca\$hc0w"
@@ -17,10 +17,10 @@ chmod 755 deleteVMs.sh
 for i in $(echo $ESXHOST | tr ',' '\n')
 do
    echo -e "\nCopy deleteVMs.sh script to $i \n"
-   sshpass -p $esxPW scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ./deleteVMs.sh root@$i:/tmp 
+   sshpass -p $esxPW scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ./deleteVMsAndDG.sh root@$i:/tmp 
    echo -e "\nDelete VMs in $i \n"
-   sshpass -p $esxPW ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@$i './tmp/deleteVMs.sh'
+   sshpass -p $esxPW ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@$i './tmp/deleteVMsAndDG.sh'
    echo -e "\nRemove deleteVMs.sh in $i \n"
-   sshpass -p $esxPW ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@$i 'rm /tmp/deleteVMs.sh'
+   sshpass -p $esxPW ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@$i 'rm /tmp/deleteVMsAndDG.sh'
 done
 rm deleteVMs.sh
