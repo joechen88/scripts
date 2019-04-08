@@ -488,10 +488,10 @@ def writeSummaryToHTML(summary):
                 <td>""" + str(hhn) + """ </td>
                 <td>""" + diskgroup + """ </td>
                 <td>""" + ttestVPXstatus + """</td>
-                <td>""" + "<a href=\"./" + ssubDirFileRelative + "\">" + "summary file" + """</a> </td>
-                <td>""" + "<a href=\"./" + ssubTestVPXrelative + "\">" + "test-vpx file" + """</a> </td>
-                <td>""" + "<a href=\"./" + sstatsHTML + "\">" + sstatsHTMLlink + """</a> </td>
-                <td>""" + "<a href=\"./" + str(vvmkernelFolder)  + "\">" + str(vvmkerneldir) + """</a> </td>
+                <td>""" + "<a href=\"" + ssubDirFileRelative + "\">" + "summary file" + """</a> </td>
+                <td>""" + "<a href=\"" + ssubTestVPXrelative + "\">" + "test-vpx file" + """</a> </td>
+                <td>""" + "<a href=\"" + sstatsHTML + "\">" + sstatsHTMLlink + """</a> </td>
+                <td>""" + "<a href=\"" + str(vvmkernelFolder)  + "\">" + str(vvmkerneldir) + """</a> </td>
                 <td>""" + str(vvendorUtilGetinfo) +"""</td>
                 <td>""" + str(vvendorUtil) + """</td></tr>"""
 
@@ -508,6 +508,12 @@ def writeSummaryToHTML(summary):
             """
     Html_file.write(html_str7)
     Html_file.close()
+
+
+#                <td>""" + "<a href=\"./" + ssubDirFileRelative + "\">" + "summary file" + """</a> </td>
+#                <td>""" + "<a href=\"./" + ssubTestVPXrelative + "\">" + "test-vpx file" + """</a> </td>
+#                <td>""" + "<a href=\"./" + sstatsHTML + "\">" + sstatsHTMLlink + """</a> </td>
+#                <td>""" + "<a href=\"./" + str(vvmkernelFolder)  + "\">" + str(vvmkerneldir) + """</a> </td>
 
 
 def genLogsummary(currentPath, testname, ts, output):
