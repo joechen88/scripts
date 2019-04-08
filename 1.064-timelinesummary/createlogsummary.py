@@ -198,11 +198,11 @@ def writeSummaryToHTML(summary):
 
         # currentDir is the "parent directory" where you issue createlogsummary.py
         pattern = currentDir + "/"
-
         #current dir subtract original directory for summary file
         subDirFileRelative = re.sub(pattern,'', pathFile)
         #current dir subtract original directory for testVPX file
         subTestVPXrelative = re.sub(pattern,'', testVPXpathFile[i])
+
         #current dir subtract original directory for statsHTML
         #statsHTML = re.sub(pattern,'', TMPstatsHTML)
 
@@ -265,7 +265,10 @@ def writeSummaryToHTML(summary):
             vmkerneldir = ''
             vmkernelFolder = ''
         else:
-            vmkernelFolder = "./" + dirResult
+#            vmkernelFolder = "./" + dirResult
+            vmkernelFolder = dirResult
+            #vmkernelFolder = vmkernelFolder[len(os.getcwd()):]
+	    #vmkernelFolder.lstrip('/')
             vmkerneldir = 'dir'
 
 
@@ -488,10 +491,10 @@ def writeSummaryToHTML(summary):
                 <td>""" + str(hhn) + """ </td>
                 <td>""" + diskgroup + """ </td>
                 <td>""" + ttestVPXstatus + """</td>
-                <td>""" + "<a href=\"" + ssubDirFileRelative + "\">" + "summary file" + """</a> </td>
-                <td>""" + "<a href=\"" + ssubTestVPXrelative + "\">" + "test-vpx file" + """</a> </td>
-                <td>""" + "<a href=\"" + sstatsHTML + "\">" + sstatsHTMLlink + """</a> </td>
-                <td>""" + "<a href=\"" + str(vvmkernelFolder)  + "\">" + str(vvmkerneldir) + """</a> </td>
+                <td>""" + "<a href=" + ssubDirFileRelative + ">" + "summary file" + """</a> </td>
+                <td>""" + "<a href=" + ssubTestVPXrelative + ">" + "test-vpx file" + """</a> </td>
+                <td>""" + "<a href=" + sstatsHTML + ">" + sstatsHTMLlink + """</a> </td>
+                <td>""" + "<a href=" + str(vvmkernelFolder)  + ">" + str(vvmkerneldir) + """</a> </td>
                 <td>""" + str(vvendorUtilGetinfo) +"""</td>
                 <td>""" + str(vvendorUtil) + """</td></tr>"""
 
