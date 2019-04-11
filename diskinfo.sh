@@ -40,7 +40,7 @@ else
         echo ""           
         echo "**********" 
         esxcfg-scsidevs -a                                              
-        echo "**********"    
+        echo -e "**********\n"    
         driveInfoArray=$(vdq -qH | grep -iE "mpx|naa|t10" | awk '{print $2}')
    fi
 
@@ -48,7 +48,7 @@ else
         echo ""
         echo "**********"
         esxcfg-scsidevs -a
-        echo "**********"
+        echo -e "**********\n"
         vdq -iH
         driveInfoArray=$(vdq -iH | grep -iE "ssd|md" | awk '{print $2}')
    fi
