@@ -37,11 +37,18 @@ else
 
    IFS=$'\n'
    if [ $1 == "ad" ]; then
+        echo ""           
+        echo "**********" 
+        esxcfg-scsidevs -a                                              
+        echo "**********"    
         driveInfoArray=$(vdq -qH | grep -iE "mpx|naa|t10" | awk '{print $2}')
    fi
 
    if [ $1 == "dg" ]; then
+        echo ""
+        echo "**********"
         esxcfg-scsidevs -a
+        echo "**********"
         vdq -iH
         driveInfoArray=$(vdq -iH | grep -iE "ssd|md" | awk '{print $2}')
    fi
