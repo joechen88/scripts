@@ -4,12 +4,12 @@ usage()
 {
 cat << EOF
 
-           Usage: sh driveinfo.sh <ad|dg>
+           Usage: sh diskinfo.sh <ad|dg>
                      ad = list all disks
                      dg = list disks from vsan diskgroup
 
                   example:
-                         sh driveinfo.sh dg
+                         sh diskinfo.sh dg
 EOF
 }
 
