@@ -198,10 +198,19 @@ def writeSummaryToHTML(summary):
 
         # currentDir is the "parent directory" where you issue createlogsummary.py
         pattern = currentDir + "/"
+        #print "joe:pattern  " + pattern
+
+        #print "joe::pathFile  " + pathFile
+
         #current dir subtract original directory for summary file
-        subDirFileRelative = re.sub(pattern,'', pathFile)
+        #subDirFileRelative = re.sub(pattern,'', pathFile)
+        subDirFileRelative = pathFile.replace(pattern, './')
+        #print "joe:subDirFileRelative  " + subDirFileRelative
+
         #current dir subtract original directory for testVPX file
-        subTestVPXrelative = re.sub(pattern,'', testVPXpathFile[i])
+        #subTestVPXrelative = re.sub(r'pattern','', testVPXpathFile[i])
+        subTestVPXrelative = testVPXpathFile[i].replace(pattern, './')
+        #print "joe:subTestVPXrelative  " + subTestVPXrelative
 
         #current dir subtract original directory for statsHTML
         #statsHTML = re.sub(pattern,'', TMPstatsHTML)
@@ -267,8 +276,6 @@ def writeSummaryToHTML(summary):
         else:
 #            vmkernelFolder = "./" + dirResult
             vmkernelFolder = dirResult
-            #vmkernelFolder = vmkernelFolder[len(os.getcwd()):]
-	    #vmkernelFolder.lstrip('/')
             vmkerneldir = 'dir'
 
 
