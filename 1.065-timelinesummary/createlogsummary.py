@@ -1,5 +1,5 @@
 #!/usr/bin/python
-#version 1.064
+#version 1.065
 # lightgreen and lightblue theme
 import scandir, os, subprocess, re, datetime, fnmatch
 
@@ -222,10 +222,14 @@ def writeSummaryToHTML(summary):
         else:
          # combinedLong and 7day have multiple statsDir hence we are only getting dir path
          #current dir subtract original directory for statsHTML
-            statsHTML = re.sub(pattern,'', TMPstatsHTML)
+
+            #statsHTML = re.sub(pattern,'', TMPstatsHTML)
+	    statsHTML = TMPstatsHTML.replace(pattern, './')
+
+
             #statsHTML
             if testvpx == "combined_long_c1" or testvpx == "combined_long_c2":
-                  statsHTMLlink = 'dir'
+		statsHTMLlink = 'dir'
 
             if testvpx == "7day_stress_c1" or testvpx == "7day_stress_c2" \
                 or testvpx == "7day_stress_af_c1" or testvpx == "7day_stress_af_c2":
@@ -596,7 +600,8 @@ def checkDir(testVPXlocation, hn):
                 # need to convert that to relative path
                 pattern = currentDir + "/"
                 tmpvmkernelFolder = testVPXlocation + "/" + j
-                vmkernelFolder = re.sub(pattern,'', tmpvmkernelFolder)
+                #vmkernelFolder = re.sub(pattern,'', tmpvmkernelFolder)
+		vmkernelFolder = tmpvmkernelFolder.replace(pattern, './')
                 return vmkernelFolder
 
 
