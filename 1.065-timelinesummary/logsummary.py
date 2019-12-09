@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-#version 1.064
+#version 1.065
 import argparse, re, os, subprocess, datetime, sys, fnmatch, scandir
 from dateutil import relativedelta
 from optparse import OptionParser
