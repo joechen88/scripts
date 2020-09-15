@@ -1,5 +1,5 @@
 #!/usr/bin/python
-#version 1.064
+#version 1.065
 # lightgreen and lightblue theme
 import scandir, os, subprocess, re, datetime, fnmatch
 
@@ -198,11 +198,20 @@ def writeSummaryToHTML(summary):
 
         # currentDir is the "parent directory" where you issue createlogsummary.py
         pattern = currentDir + "/"
+        #print "joe:pattern  " + pattern
+
+        #print "joe::pathFile  " + pathFile
 
         #current dir subtract original directory for summary file
-        subDirFileRelative = re.sub(pattern,'', pathFile)
+        #subDirFileRelative = re.sub(pattern,'', pathFile)
+        subDirFileRelative = pathFile.replace(pattern, './')
+        #print "joe:subDirFileRelative  " + subDirFileRelative
+
         #current dir subtract original directory for testVPX file
-        subTestVPXrelative = re.sub(pattern,'', testVPXpathFile[i])
+        #subTestVPXrelative = re.sub(r'pattern','', testVPXpathFile[i])
+        subTestVPXrelative = testVPXpathFile[i].replace(pattern, './')
+        #print "joe:subTestVPXrelative  " + subTestVPXrelative
+
         #current dir subtract original directory for statsHTML
         #statsHTML = re.sub(pattern,'', TMPstatsHTML)
 
@@ -213,10 +222,14 @@ def writeSummaryToHTML(summary):
         else:
          # combinedLong and 7day have multiple statsDir hence we are only getting dir path
          #current dir subtract original directory for statsHTML
-            statsHTML = re.sub(pattern,'', TMPstatsHTML)
+
+            #statsHTML = re.sub(pattern,'', TMPstatsHTML)
+	    statsHTML = TMPstatsHTML.replace(pattern, './')
+
+
             #statsHTML
             if testvpx == "combined_long_c1" or testvpx == "combined_long_c2":
-                  statsHTMLlink = 'dir'
+		statsHTMLlink = 'dir'
 
             if testvpx == "7day_stress_c1" or testvpx == "7day_stress_c2" \
                 or testvpx == "7day_stress_af_c1" or testvpx == "7day_stress_af_c2":
@@ -265,7 +278,8 @@ def writeSummaryToHTML(summary):
             vmkerneldir = ''
             vmkernelFolder = ''
         else:
-            vmkernelFolder = "./" + dirResult
+#            vmkernelFolder = "./" + dirResult
+            vmkernelFolder = dirResult
             vmkerneldir = 'dir'
 
 
@@ -488,10 +502,10 @@ def writeSummaryToHTML(summary):
                 <td>""" + str(hhn) + """ </td>
                 <td>""" + diskgroup + """ </td>
                 <td>""" + ttestVPXstatus + """</td>
-                <td>""" + "<a href=\"./" + ssubDirFileRelative + "\">" + "summary file" + """</a> </td>
-                <td>""" + "<a href=\"./" + ssubTestVPXrelative + "\">" + "test-vpx file" + """</a> </td>
-                <td>""" + "<a href=\"./" + sstatsHTML + "\">" + sstatsHTMLlink + """</a> </td>
-                <td>""" + "<a href=\"./" + str(vvmkernelFolder)  + "\">" + str(vvmkerneldir) + """</a> </td>
+                <td>""" + "<a href=" + ssubDirFileRelative + ">" + "summary file" + """</a> </td>
+                <td>""" + "<a href=" + ssubTestVPXrelative + ">" + "test-vpx file" + """</a> </td>
+                <td>""" + "<a href=" + sstatsHTML + ">" + sstatsHTMLlink + """</a> </td>
+                <td>""" + "<a href=" + str(vvmkernelFolder)  + ">" + str(vvmkerneldir) + """</a> </td>
                 <td>""" + str(vvendorUtilGetinfo) +"""</td>
                 <td>""" + str(vvendorUtil) + """</td></tr>"""
 
@@ -508,6 +522,12 @@ def writeSummaryToHTML(summary):
             """
     Html_file.write(html_str7)
     Html_file.close()
+
+
+#                <td>""" + "<a href=\"./" + ssubDirFileRelative + "\">" + "summary file" + """</a> </td>
+#                <td>""" + "<a href=\"./" + ssubTestVPXrelative + "\">" + "test-vpx file" + """</a> </td>
+#                <td>""" + "<a href=\"./" + sstatsHTML + "\">" + sstatsHTMLlink + """</a> </td>
+#                <td>""" + "<a href=\"./" + str(vvmkernelFolder)  + "\">" + str(vvmkerneldir) + """</a> </td>
 
 
 def genLogsummary(currentPath, testname, ts, output):
@@ -580,7 +600,8 @@ def checkDir(testVPXlocation, hn):
                 # need to convert that to relative path
                 pattern = currentDir + "/"
                 tmpvmkernelFolder = testVPXlocation + "/" + j
-                vmkernelFolder = re.sub(pattern,'', tmpvmkernelFolder)
+                #vmkernelFolder = re.sub(pattern,'', tmpvmkernelFolder)
+		vmkernelFolder = tmpvmkernelFolder.replace(pattern, './')
                 return vmkernelFolder
 
 
