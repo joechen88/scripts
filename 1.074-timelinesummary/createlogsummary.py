@@ -1,5 +1,5 @@
 #!/usr/bin/python
-#version 1.075
+#version 1.0751
 # lightgreen and lightblue theme
 import scandir, os, subprocess, re, datetime, fnmatch
 
@@ -141,7 +141,6 @@ def statsDir(test, testvpxlocation, hn, numOfHost):
     num=0
     p = os.path.join(testvpxlocation, 'traces')
     t = getTestName(test)
-
     for root, dirs, files in scandir.walk(p):
 	for x in fnmatch.filter(dirs, t):
             statsFile = p + "/" + x + "/stats.html"
@@ -149,14 +148,15 @@ def statsDir(test, testvpxlocation, hn, numOfHost):
             a = "cat " + statsFile + " | grep -iE 'ESX host' | awk '{print $3}' "
             chkhostname = cmdline(a)
             chkhostname = chkhostname[:-1]
-
+           
             if chkhostname == hn:
                 if num < numOfHost:     # will only output hdd details on different host
                     if test == "combined_long_c1" or test == "combined_long_c2" \
                         or test == "7day_stress_c1" or test == "7day_stress_c2" \
                         or test == "7day_stress_af_c1" or test == "7day_stress_af_c2" \
-			or test == "sharedVmfs_boot_vsanDatastore_af_c1" or test == "sharedVmfs_boot_vsanDatastore_af_c2" \
-			or test == "sharedVmfs_boot_vsanDatastore_c1" or test == "sharedVmfs_boot_vsanDatastore_c2":
+                        or test == "secure_wipe_af_c1" or test == "secure_wipe_af_c2" \
+                        or test == "sharedVmfs_boot_vsanDatastore_af_c1" or test == "sharedVmfs_boot_vsanDatastore_af_c2" \
+                        or test == "sharedVmfs_boot_vsanDatastore_c1" or test == "sharedVmfs_boot_vsanDatastore_c2":
                         num=num+1
                         return p
                     else:
@@ -237,6 +237,9 @@ def writeSummaryToHTML(summary):
 
             if testvpx == "7day_stress_c1" or testvpx == "7day_stress_c2" \
                 or testvpx == "7day_stress_af_c1" or testvpx == "7day_stress_af_c2":
+                  statsHTMLlink = 'dir'
+
+            if testvpx == "secure_wipe_af_c1" or testvpx == "secure_wipe_af_c2":
                   statsHTMLlink = 'dir'
 
             if testvpx == "log_compaction_c1" or testvpx == "log_compaction_c2":
@@ -837,11 +840,11 @@ def runLogSummary(currentPath, testname):
     # Secure Wipe -------------------------------------------------------------------------------
 	if testname == "test-vpx.vsan.iocert.ctrlr_secure_wipe_af_c1.log":
 	    genLogsummary(currentPath, "test-vpx.vsan.iocert.ctrlr_secure_wipe_af_c1.log", \
-                                "secureWipe", "summary-ctrlr_secure_wipe_c1.txt")
+                                "secureWipe", "summary-ctrlr_secure_wipe_af_c1.txt")
 
 	if testname == "test-vpx.vsan.iocert.ctrlr_secure_wipe_af_c2.log":
 	    genLogsummary(currentPath, "test-vpx.vsan.iocert.ctrlr_secure_wipe_af_c2.log", \
-                                "secureWipe", "summary-ctrlr_secure_wipe_c2.txt")
+                                "secureWipe", "summary-ctrlr_secure_wipe_af_c2.txt")
 
     # Log Compaction -------------------------------------------------------------------------------
 	if testname == "test-vpx.vsan.iocert.ctrlr_log_compaction_c1.log":
